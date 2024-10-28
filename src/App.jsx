@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Dashboard from "./pages/Dashboard";
 import AppLayout from "./layouts/AppLayout";
 import ProtectedRoutes from "./layouts/ProtectedRoutes";
+import UploadSong from "./features/songs/UploadSong";
 
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
             }
           >
             <Route path="/" element={<Dashboard />} />
+            <Route path="/upload-song" element={<UploadSong />} />
           </Route>
           <Route path="/login" element={<Login />} />
         </Routes>
