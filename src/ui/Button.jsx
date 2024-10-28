@@ -1,4 +1,13 @@
-function Button({ children, type = "primary", disabled = false }) {
+import { Link } from "react-router-dom";
+
+function Button({
+  children,
+  tag = "button",
+  type = "primary",
+  disabled = false,
+  to = "#",
+  onClick
+}) {
   let buttonColor;
   let hoverColor;
   switch (type) {
@@ -22,16 +31,31 @@ function Button({ children, type = "primary", disabled = false }) {
       buttonColor = "bg-blue-500";
       hoverColor = "hover:bg-blue-600";
   }
-  return (
-    <div>
-      <button 
-        disabled={disabled}
-        className={`${buttonColor} ${hoverColor} disabled:opacity-50 text-white  py-2 px-4 rounded`}
-      >
-        {children}
-      </button>
-    </div>
-  );
+  if (tag === "button")
+    return (
+      <div>
+        <button
+        onClick={onClick}
+          disabled={disabled}
+          className={`${buttonColor} ${hoverColor} rounded px-4 py-2 text-white disabled:opacity-50`}
+        >
+          {children}
+        </button>
+      </div>
+    );
+
+  if (tag === "a")
+    return (
+      <div>
+        <Link
+          to={to}
+          disabled={disabled}
+          className={`${buttonColor} ${hoverColor} rounded px-4 py-2 text-white disabled:opacity-50`}
+        >
+          {children}
+        </Link>
+      </div>
+    );
 }
 
 export default Button;

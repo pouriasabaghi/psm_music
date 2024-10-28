@@ -8,7 +8,7 @@ function AppLayout() {
     <AppContainer>
       <div className="bg-dark px-5 pt-5">
         <AppHeader />
-        <div className="h-[calc(100vh-140px)] overflow-auto pb-16">
+        <div className="h-[calc(100vh-140px)] overflow-auto ">
           <Outlet />
         </div>
       </div>
