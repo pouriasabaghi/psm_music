@@ -1,4 +1,4 @@
-function Button({ children, type = "primary" }) {
+function Button({ children, type = "primary", disabled = false }) {
   let buttonColor;
   let hoverColor;
   switch (type) {
@@ -24,8 +24,9 @@ function Button({ children, type = "primary" }) {
   }
   return (
     <div>
-      <button
-        className={`${buttonColor} ${hoverColor} text-white  py-2 px-4 rounded`}
+      <button 
+        disabled={disabled}
+        className={`${buttonColor} ${hoverColor} disabled:opacity-50 text-white  py-2 px-4 rounded`}
       >
         {children}
       </button>
