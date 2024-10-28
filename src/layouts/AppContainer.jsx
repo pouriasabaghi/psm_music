@@ -1,6 +1,6 @@
-function AppContainer({children}) {
+function AppContainer({children, classes}) {
   return (
-    <main className="max-w-[450px] m-auto flex  min-h-screen">
+    <main className={`max-w-[450px] m-auto   relative ${classes}`}>
       {children}
     </main>
   );
