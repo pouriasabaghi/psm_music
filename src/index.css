@@ -5,3 +5,20 @@
 body {
   @apply bg-dark-900 text-white;
 }
+
+.animate-spin-slow{
+  animation: spin 5s linear infinite;
+}
+
+.animate-spin-slow.stop{
+  animation-play-state: paused;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
