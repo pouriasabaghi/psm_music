@@ -9,8 +9,7 @@ import AppLayout from "./layouts/AppLayout";
 import ProtectedRoutes from "./layouts/ProtectedRoutes";
 import UploadSong from "./features/songs/UploadSongForm";
 import EditSong from "./pages/EditSong";
-
-
+import { PlayerContextProvider } from "./context/PlayerContext";
 
 function App() {
   const queryClient = new QueryClient({
@@ -21,28 +20,28 @@ function App() {
     },
   });
 
-
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
       <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
-
-      <BrowserRouter>
-        <Routes>
-          <Route
-            element={
-              <ProtectedRoutes>
-                <AppLayout />
-              </ProtectedRoutes>
-            }
-          >
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/upload-song" element={<UploadSong />} />
-            <Route path="/songs/:id" element={<EditSong />} />
-          </Route>
-          <Route path="/login" element={<Login />} />
-        </Routes>
-      </BrowserRouter>
+      <PlayerContextProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route
+              element={
+                <ProtectedRoutes>
+                  <AppLayout />
+                </ProtectedRoutes>
+              }
+            >
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/upload-song" element={<UploadSong />} />
+              <Route path="/songs/:id" element={<EditSong />} />
+            </Route>
+            <Route path="/login" element={<Login />} />
+          </Routes>
+        </BrowserRouter>
+      </PlayerContextProvider>
     </QueryClientProvider>
   );
 }
