@@ -6,7 +6,8 @@ import {
   useState,
 } from "react";
 
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { getSongs } from "../services/apiSongs";
 
 const PlayerContext = createContext(null);
 
@@ -17,7 +18,11 @@ function PlayerContextProvider({ children }) {
 
   const audioRef = useRef(null);
 
-  const queryClient = useQueryClient();
+  // This data has already been fetched and cached
+  const { data: songs = [] } = useQuery({
+    queryKey: ["songs"],
+    queryFn: () => getSongs(),
+  });
 
   const play = useCallback(
     (song = null) => {
@@ -28,6 +33,7 @@ function PlayerContextProvider({ children }) {
         return;
       }
 
+      // Prevent multi audio play at same time;
       if (audioRef.current) {
         audioRef.current.pause();
       }
@@ -42,11 +48,13 @@ function PlayerContextProvider({ children }) {
       setCurrentSong(songToPlay);
 
       // Update the current index when playing a new song
-      const cachedSongs = queryClient.getQueryData(["songs"]);
-      const newIndex = cachedSongs.findIndex((s) => s.id === songToPlay.id);
+
+      console.log(songs); 
+      const newIndex = songs.findIndex((s) => s.id === songToPlay.id);
+      
       setCurrentIndex(newIndex !== -1 ? newIndex : null);
     },
-    [currentSong, queryClient],
+    [currentSong, songs],
   );
 
   const continues = useCallback(() => {
@@ -64,24 +72,24 @@ function PlayerContextProvider({ children }) {
   }, []);
 
   const next = useCallback(() => {
-    const songs = queryClient.getQueryData(["songs"]);
+
     if (currentIndex !== null && currentIndex + 1 < songs.length) {
       const nextIndex = currentIndex + 1;
       setCurrentSong(songs[nextIndex]);
       setCurrentIndex(nextIndex);
       play(songs[nextIndex]);
     }
-  }, [currentIndex, queryClient, play]);
+  }, [currentIndex, songs, play]);
 
   const prev = useCallback(() => {
-    const songs = queryClient.getQueryData(["songs"]);
+
     if (currentIndex !== null && currentIndex > 0) {
       const prevIndex = currentIndex - 1;
       setCurrentSong(songs[prevIndex]);
       setCurrentIndex(prevIndex);
       play(songs[prevIndex]);
     }
-  }, [currentIndex, queryClient, play]);
+  }, [currentIndex, songs, play]);
 
   const value = {
     currentSong,
@@ -93,7 +101,7 @@ function PlayerContextProvider({ children }) {
     next,
     prev,
   };
-  
+
   return (
     <PlayerContext.Provider value={value}>{children}</PlayerContext.Provider>
   );
