@@ -1,3 +1,4 @@
+import { data } from "autoprefixer";
 import http, { upload } from "../utils/http";
 
 export const getSongs = async () => {
@@ -5,7 +6,7 @@ export const getSongs = async () => {
   return response.data;
 };
 
-export const uploadSong = async ({file, setProgress}) => {
+export const uploadSong = async ({ file, setProgress }) => {
   const formData = new FormData();
   formData.append("file", file);
 
@@ -21,5 +22,19 @@ export const uploadSong = async ({file, setProgress}) => {
     },
   });
 
+  return response.data;
+};
+
+export const getSongById = async (id) => {
+  if (!id) return;
+
+  const response = await http.get(`/api/songs/${id}`);
+  return response.data;
+};
+
+export const updateSong = async (id, data) => {
+  if (!id) return;
+  
+  const response = await http.put(`/api/songs/${id}`, data);
   return response.data;
 };

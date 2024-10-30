@@ -6,7 +6,8 @@ function Button({
   type = "primary",
   disabled = false,
   to = "#",
-  onClick
+  onClick, 
+  buttonType="submit"
 }) {
   let buttonColor;
   let hoverColor;
@@ -35,7 +36,8 @@ function Button({
     return (
       <div>
         <button
-        onClick={onClick}
+          type={buttonType}
+          onClick={onClick}
           disabled={disabled}
           className={`${buttonColor} ${hoverColor} rounded px-4 py-2 text-white disabled:opacity-50`}
         >
