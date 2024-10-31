@@ -2,6 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useRef,
   useState,
 } from "react";
@@ -43,15 +44,14 @@ function PlayerContextProvider({ children }) {
       );
 
       audio.play();
+      audio.currentTime = 20;
       audioRef.current = audio;
-      setIsPlaying(true);
-      setCurrentSong(songToPlay);
-
+      
       // Update the current index when playing a new song
-
-      console.log(songs); 
       const newIndex = songs.findIndex((s) => s.id === songToPlay.id);
       
+      setIsPlaying(true);
+      setCurrentSong(songToPlay);
       setCurrentIndex(newIndex !== -1 ? newIndex : null);
     },
     [currentSong, songs],
@@ -72,17 +72,17 @@ function PlayerContextProvider({ children }) {
   }, []);
 
   const next = useCallback(() => {
-
     if (currentIndex !== null && currentIndex + 1 < songs.length) {
       const nextIndex = currentIndex + 1;
       setCurrentSong(songs[nextIndex]);
       setCurrentIndex(nextIndex);
       play(songs[nextIndex]);
+    }else{
+      play(songs[0]);
     }
   }, [currentIndex, songs, play]);
 
   const prev = useCallback(() => {
-
     if (currentIndex !== null && currentIndex > 0) {
       const prevIndex = currentIndex - 1;
       setCurrentSong(songs[prevIndex]);
@@ -90,6 +90,19 @@ function PlayerContextProvider({ children }) {
       play(songs[prevIndex]);
     }
   }, [currentIndex, songs, play]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.addEventListener("ended", next);
+    }
+    
+    return () => {
+      if (audio) {
+        audio.removeEventListener("ended", next);
+      }
+    };
+  }, [next]);
 
   const value = {
     currentSong,
@@ -115,3 +128,4 @@ function usePlayer() {
 }
 
 export { PlayerContextProvider, usePlayer };
+
