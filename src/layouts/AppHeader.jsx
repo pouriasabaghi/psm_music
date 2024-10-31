@@ -1,19 +1,20 @@
 import { MdArrowBack, MdCloudUpload } from "react-icons/md";
 import Input from "../ui/Input";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 function AppHeader() {
   const location = useLocation();
-  const isUploadPage = location.pathname === "/upload-song";
+  const navigate = useNavigate();
+  const isHomePage = location.pathname === "/";
 
   return (
     <nav className="mb-5 flex items-center gap-x-4">
-      {isUploadPage ? (
-        <NavLink to="/">
-          <MdArrowBack color="white" size={30} />
-        </NavLink>
-      ) : (
+      {isHomePage ? (
         <NavLink to="/upload-song">
           <MdCloudUpload color="white" size={30} />
+        </NavLink>
+      ) : (
+        <NavLink onClick={()=>navigate(-1)}>
+          <MdArrowBack color="white" size={30} />
         </NavLink>
       )}
 
