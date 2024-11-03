@@ -3,7 +3,7 @@ import { useEditSong } from "./useEditSong";
 
 import { useForm } from "react-hook-form";
 import Input from "../../ui/Input";
-import Button from "../../ui/Button";
+import {Button} from "../../ui/button";
 import { useUpdateSong } from "./useUpdateSong";
 
 function EditSongForm() {

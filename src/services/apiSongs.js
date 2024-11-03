@@ -38,3 +38,10 @@ export const updateSong = async (id, data) => {
   const response = await http.put(`/api/songs/${id}`, data);
   return response.data;
 };
+
+export const deleteSong = async (id) => {
+  if (!id) return;
+  
+  const response = await http.delete(`/api/songs/${id}`);
+  return response.data;
+}

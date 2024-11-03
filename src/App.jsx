@@ -20,6 +20,8 @@ function App() {
     },
   });
 
+  const theme = {};
+
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
