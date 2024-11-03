@@ -37,8 +37,8 @@ function App() {
               }
             >
               <Route path="/" element={<Dashboard />} />
-              <Route path="/upload-song" element={<UploadSong />} />
-              <Route path="/songs/:id" element={<EditSong />} />
+              <Route path="/songs/upload" element={<UploadSong />} />
+              <Route path="/songs/edit/:id" element={<EditSong />} />
             </Route>
             <Route path="/login" element={<Login />} />
           </Routes>
