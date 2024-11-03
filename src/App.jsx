@@ -10,6 +10,7 @@ import ProtectedRoutes from "./layouts/ProtectedRoutes";
 import UploadSong from "./features/songs/UploadSongForm";
 import EditSong from "./pages/EditSong";
 import { PlayerContextProvider } from "./context/PlayerContext";
+import Song from "./pages/Song";
 
 function App() {
   const queryClient = new QueryClient({
@@ -19,8 +20,6 @@ function App() {
       },
     },
   });
-
-  const theme = {};
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -37,6 +36,7 @@ function App() {
               }
             >
               <Route path="/" element={<Dashboard />} />
+              <Route path="/songs/:id" element={<Song />} />
               <Route path="/songs/upload" element={<UploadSong />} />
               <Route path="/songs/edit/:id" element={<EditSong />} />
             </Route>

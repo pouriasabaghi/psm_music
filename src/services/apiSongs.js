@@ -1,5 +1,6 @@
 import { data } from "autoprefixer";
 import http, { upload } from "../utils/http";
+import axios from "axios";
 
 export const getSongs = async () => {
   const response = await http.get("/api/songs");
@@ -34,14 +35,21 @@ export const getSongById = async (id) => {
 
 export const updateSong = async (id, data) => {
   if (!id) return;
-  
+
   const response = await http.put(`/api/songs/${id}`, data);
   return response.data;
 };
 
 export const deleteSong = async (id) => {
   if (!id) return;
-  
+
   const response = await http.delete(`/api/songs/${id}`);
   return response.data;
-}
+};
+
+export const getStreamFile = async (id) => {
+  if (!id) return;
+
+  const response = await axios.get(`http://localhost:8000/api/songs/${id}/stream`);
+  return response.data;
+};

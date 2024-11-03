@@ -3,21 +3,32 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useRef,
   useState,
 } from "react";
 
 import { useQuery } from "@tanstack/react-query";
-import { getSongs } from "../services/apiSongs";
+import { getSongs } from "@/services/apiSongs";
 
 const PlayerContext = createContext(null);
 
 function PlayerContextProvider({ children }) {
-  const [currentSong, setCurrentSong] = useState(null);
+/*************  ✨ Codeium Command ⭐  *************/
+  /**
+   * PlayerContextProvider
+   *
+   * Provides the player context to components that need to access the player
+   * state and functions.
+   *
+   * @param {object} props The component props
+   * @param {ReactNode} props.children The children components
+   *
+   * @returns {ReactElement} The player context provider component
+   */
+/******  8169eee3-fb38-4d53-8b1c-99b8a28f974b  *******/  const [currentSong, setCurrentSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
-
-  const audioRef = useRef(null);
+  const [progress, setProgress] = useState(0);
+  const [audio, setAudio] = useState(null);
 
   // This data has already been fetched and cached
   const { data: songs = [] } = useQuery({
@@ -26,7 +37,7 @@ function PlayerContextProvider({ children }) {
   });
 
   const play = useCallback(
-    (song = null) => {
+    async (song = null) => {
       const songToPlay = song || currentSong;
 
       if (!songToPlay || !songToPlay.path) {
@@ -34,42 +45,49 @@ function PlayerContextProvider({ children }) {
         return;
       }
 
-      // Prevent multi audio play at same time;
-      if (audioRef.current) {
-        audioRef.current.pause();
+      // Pause and replace the previous audio instance if it exists
+      if (audio) {
+        audio.pause();
       }
 
-      const audio = new Audio(
-        `http://localhost:8000/storage/${songToPlay.path}`,
+      const newAudio = new Audio(
+        `http://localhost:8000/api/songs/${songToPlay.id}/stream`
       );
 
-      audio.play();
-      audio.currentTime = 20;
-      audioRef.current = audio;
-      
+      newAudio.play();
+      setAudio(newAudio);
+
       // Update the current index when playing a new song
       const newIndex = songs.findIndex((s) => s.id === songToPlay.id);
-      
+
       setIsPlaying(true);
       setCurrentSong(songToPlay);
       setCurrentIndex(newIndex !== -1 ? newIndex : null);
     },
-    [currentSong, songs],
+    [currentSong, songs, audio]
   );
 
   const continues = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.play();
+    if (audio) {
+      audio.play();
       setIsPlaying(true);
     }
-  }, []);
+  }, [audio]);
+
+  const playOrContinues = useCallback(() => {
+    if (audio) {
+      continues();
+    } else {
+      play();
+    }
+  }, [play, continues, audio]);
 
   const stop = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.pause();
+    if (audio) {
+      audio.pause();
       setIsPlaying(false);
     }
-  }, []);
+  }, [audio]);
 
   const next = useCallback(() => {
     if (currentIndex !== null && currentIndex + 1 < songs.length) {
@@ -77,7 +95,7 @@ function PlayerContextProvider({ children }) {
       setCurrentSong(songs[nextIndex]);
       setCurrentIndex(nextIndex);
       play(songs[nextIndex]);
-    }else{
+    } else {
       play(songs[0]);
     }
   }, [currentIndex, songs, play]);
@@ -92,17 +110,33 @@ function PlayerContextProvider({ children }) {
   }, [currentIndex, songs, play]);
 
   useEffect(() => {
-    const audio = audioRef.current;
     if (audio) {
       audio.addEventListener("ended", next);
     }
-    
+
     return () => {
       if (audio) {
         audio.removeEventListener("ended", next);
       }
     };
-  }, [next]);
+  }, [audio, next]);
+
+  useEffect(() => {
+    if (!audio) return;
+
+    const handleTimeUpdate = () => {
+      if (!isPlaying) return;
+
+      const percentage = (audio.currentTime / audio.duration) * 100;
+      setProgress(percentage);
+    };
+
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+
+    return () => {
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+    };
+  }, [audio, isPlaying]);
 
   const value = {
     currentSong,
@@ -113,6 +147,9 @@ function PlayerContextProvider({ children }) {
     stop,
     next,
     prev,
+    playOrContinues,
+    progress,
+    audio,
   };
 
   return (
@@ -128,4 +165,3 @@ function usePlayer() {
 }
 
 export { PlayerContextProvider, usePlayer };
-

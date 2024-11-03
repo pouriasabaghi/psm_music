@@ -1,4 +1,4 @@
-import MiniPlayer from "../features/songs/MiniPlayer";
+import MiniPlayer from "../features/player/MiniPlayer";
 
 function AppFooter() {
   return (
