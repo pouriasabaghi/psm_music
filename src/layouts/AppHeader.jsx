@@ -9,7 +9,7 @@ function AppHeader() {
   return (
     <nav className="mb-5 flex items-center gap-x-4">
       {isHomePage ? (
-        <NavLink to="/upload-song">
+        <NavLink to="/songs/upload">
           <MdCloudUpload color="white" size={30} />
         </NavLink>
       ) : (

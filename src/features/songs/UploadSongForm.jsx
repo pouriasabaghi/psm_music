@@ -40,7 +40,7 @@ function UploadSong() {
         />
         {progress === 100 && (
           <>
-            <Button tag="a" to={`/songs/${data?.song.id}`}>
+            <Button tag="a" to={`/songs/edit/${data?.song.id}`}>
               Edit song info
             </Button>
             <Button onClick={() => setProgress(0)}>Upload new one</Button>

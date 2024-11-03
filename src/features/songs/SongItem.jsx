@@ -74,7 +74,7 @@ function SongItem({ song }) {
             <DropdownMenuContent>
               <DropdownMenuItem>
                 <MdOutlineModeEditOutline className="mr-1" size={20} />
-                <Link to={`songs/${song.id}`}>Edit</Link>
+                <Link to={`songs/edit/${song.id}`}>Edit</Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer">
                 <MdDeleteOutline />
