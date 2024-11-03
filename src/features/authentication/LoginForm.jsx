@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
-import Button from "../../ui/Button";
+
 import Input from "../../ui/Input";
 import { useLogin } from "./useLogin";
+import { Button } from "@/ui/button";
 
 function LoginForm() {
   const {

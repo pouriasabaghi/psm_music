@@ -2,7 +2,7 @@ import { useState } from "react";
 import UploadInput from "../../ui/UploadInput";
 
 import { useUploadSong } from "./useUploadSong";
-import Button from "../../ui/Button";
+import {Button} from "../../ui/button";
 
 function UploadSong() {
   const [progress, setProgress] = useState(0);
