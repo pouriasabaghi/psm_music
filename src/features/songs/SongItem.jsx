@@ -11,7 +11,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/ui/dropdown-menu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDeleteSong } from "./useDeleteSong";
 
 import {
@@ -19,7 +19,6 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -27,10 +26,12 @@ import {
 } from "@/ui/alert-dialog";
 
 function SongItem({ song }) {
+  const navigate = useNavigate();
   const { deleteSong } = useDeleteSong();
   const player = usePlayer();
   function handlePlayer() {
-    player.play(song);
+    player.play(song)
+    navigate(`/songs/${song.id}`);
   }
 
   function handleDelete(id) {
