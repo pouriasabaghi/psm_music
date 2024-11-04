@@ -112,7 +112,7 @@ function Player({ song }) {
             />
           )}
           <MdSkipNext
-            onClick={() => next()}
+            onClick={() => next(true)}
             size={40}
             className="cursor-pointer text-white"
           />

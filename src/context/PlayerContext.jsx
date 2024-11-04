@@ -81,34 +81,41 @@ function PlayerContextProvider({ children }) {
     }
   }, [audio]);
 
-  const next = useCallback(() => {
-    if (currentIndex !== null && currentIndex + 1 < songs.length) {
-      let nextIndex;
+  const next = useCallback(
+    (navigateToNextSong = false) => {
+      if (currentIndex !== null && currentIndex + 1 < songs.length) {
+        let nextIndex;
 
-      // repeat
-      if (mode === 0) {
-        nextIndex = currentIndex + 1;
+        // repeat
+        if (mode === 0) {
+          nextIndex = currentIndex + 1;
+        }
+
+        // repeatOne
+        if (mode === 1) {
+          nextIndex = currentIndex;
+        }
+
+        // shuffle
+        if (mode === 2) {
+          nextIndex = Math.floor(Math.random() * songs.length);
+        }
+
+        setCurrentSong(songs[nextIndex]);
+        setCurrentIndex(nextIndex);
+        play(songs[nextIndex]);
+        if (navigateToNextSong) {
+          navigate(`/songs/${songs[nextIndex].id}`);
+        }
+      } else {
+        play(songs[0]);
+        if (navigateToNextSong) {
+          navigate(`/songs/${songs[0].id}`);
+        }
       }
-
-      // repeatOne
-      if (mode === 1) {
-        nextIndex = currentIndex;
-      }
-
-      // shuffle
-      if (mode === 2) {
-        nextIndex = Math.floor(Math.random() * songs.length);
-      }
-
-      setCurrentSong(songs[nextIndex]);
-      setCurrentIndex(nextIndex);
-      play(songs[nextIndex]);
-      navigate(`/songs/${songs[nextIndex].id}`);
-    } else {
-      play(songs[0]);
-      navigate(`/songs/${songs[0].id}`);
-    }
-  }, [currentIndex, songs, play, mode, navigate]);
+    },
+    [currentIndex, songs, play, mode, navigate],
+  );
 
   const prev = useCallback(() => {
     if (currentIndex !== null && currentIndex > 0) {
