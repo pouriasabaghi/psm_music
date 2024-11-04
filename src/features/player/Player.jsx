@@ -16,6 +16,7 @@ import {
 } from "react-icons/md";
 
 import headphoneImg from "./../../assets/img/headphone.png";
+import { formatTime } from "@/utils/utli";
 
 function Player({ song }) {
   const {
@@ -32,7 +33,7 @@ function Player({ song }) {
     setMode,
   } = usePlayer();
 
-  const songToPlay = currentSong || song
+  const songToPlay = currentSong || song;
 
   useEffect(() => {
     if (!currentSong) setCurrentSong(song);
@@ -60,6 +61,11 @@ function Player({ song }) {
         max={100}
         step={1}
       />
+
+      <div className="flex items-center justify-between mt-3">
+        <span>{formatTime(audio.currentTime)}</span>
+        <span>{formatTime(audio.duration)}</span>
+      </div>
 
       <div className="mt-9 flex items-center justify-between px-6">
         <div>
