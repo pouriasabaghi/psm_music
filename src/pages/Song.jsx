@@ -9,7 +9,7 @@ function Song() {
   const { song, isLoading } = useSong(id);
   const navigate = useNavigate();
 
- 
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <motion.div
@@ -19,7 +19,6 @@ function Song() {
       transition={{ duration: 0.5, ease: "easeInOut" }}
       className="margin-auto fixed right-0 top-0 z-50 h-full w-full max-w-[450px] bg-dark p-5 sm:mx-[calc((100%-450px)/2)]"
     >
-      {isLoading && <div>Loading...</div>}
       <div className="mb-5">
         <MdOutlineKeyboardArrowDown
           className="cursor-pointer"
