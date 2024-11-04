@@ -8,27 +8,19 @@ import {
 
 import { useQuery } from "@tanstack/react-query";
 import { getSongs } from "@/services/apiSongs";
+import { useNavigate } from "react-router-dom";
 
 const PlayerContext = createContext(null);
 
 function PlayerContextProvider({ children }) {
-/*************  ✨ Codeium Command ⭐  *************/
-  /**
-   * PlayerContextProvider
-   *
-   * Provides the player context to components that need to access the player
-   * state and functions.
-   *
-   * @param {object} props The component props
-   * @param {ReactNode} props.children The children components
-   *
-   * @returns {ReactElement} The player context provider component
-   */
-/******  8169eee3-fb38-4d53-8b1c-99b8a28f974b  *******/  const [currentSong, setCurrentSong] = useState(null);
+  const navigate = useNavigate();
+
+  const [currentSong, setCurrentSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
   const [progress, setProgress] = useState(0);
   const [audio, setAudio] = useState(null);
+  const [mode, setMode] = useState(0);
 
   // This data has already been fetched and cached
   const { data: songs = [] } = useQuery({
@@ -51,7 +43,7 @@ function PlayerContextProvider({ children }) {
       }
 
       const newAudio = new Audio(
-        `http://localhost:8000/api/songs/${songToPlay.id}/stream`
+        `http://localhost:8000/api/songs/${songToPlay.id}/stream`,
       );
 
       newAudio.play();
@@ -64,7 +56,7 @@ function PlayerContextProvider({ children }) {
       setCurrentSong(songToPlay);
       setCurrentIndex(newIndex !== -1 ? newIndex : null);
     },
-    [currentSong, songs, audio]
+    [currentSong, songs, audio],
   );
 
   const continues = useCallback(() => {
@@ -91,14 +83,32 @@ function PlayerContextProvider({ children }) {
 
   const next = useCallback(() => {
     if (currentIndex !== null && currentIndex + 1 < songs.length) {
-      const nextIndex = currentIndex + 1;
+      let nextIndex;
+
+      // repeat
+      if (mode === 0) {
+        nextIndex = currentIndex + 1;
+      }
+
+      // repeatOne
+      if (mode === 1) {
+        nextIndex = currentIndex;
+      }
+
+      // shuffle
+      if (mode === 2) {
+        nextIndex = Math.floor(Math.random() * songs.length);
+      }
+
       setCurrentSong(songs[nextIndex]);
       setCurrentIndex(nextIndex);
       play(songs[nextIndex]);
+      navigate(`/songs/${songs[nextIndex].id}`);
     } else {
       play(songs[0]);
+      navigate(`/songs/${songs[0].id}`);
     }
-  }, [currentIndex, songs, play]);
+  }, [currentIndex, songs, play, mode, navigate]);
 
   const prev = useCallback(() => {
     if (currentIndex !== null && currentIndex > 0) {
@@ -106,8 +116,9 @@ function PlayerContextProvider({ children }) {
       setCurrentSong(songs[prevIndex]);
       setCurrentIndex(prevIndex);
       play(songs[prevIndex]);
+      navigate(`/songs/${songs[prevIndex].id}`);
     }
-  }, [currentIndex, songs, play]);
+  }, [currentIndex, songs, play, navigate]);
 
   useEffect(() => {
     if (audio) {
@@ -150,6 +161,8 @@ function PlayerContextProvider({ children }) {
     playOrContinues,
     progress,
     audio,
+    mode,
+    setMode,
   };
 
   return (
