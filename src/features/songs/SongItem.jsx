@@ -30,7 +30,11 @@ function SongItem({ song }) {
   const { deleteSong } = useDeleteSong();
   const player = usePlayer();
   function handlePlayer() {
-    player.play(song)
+    // prevent resets song if song is already playing
+    if (song.id !== player.currentSong?.id) {
+      player.play(song);
+    }
+
     navigate(`/songs/${song.id}`);
   }
 

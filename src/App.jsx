@@ -25,8 +25,8 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
       <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
-      <PlayerContextProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <PlayerContextProvider>
           <Routes>
             <Route
               element={
@@ -42,8 +42,8 @@ function App() {
             </Route>
             <Route path="/login" element={<Login />} />
           </Routes>
-        </BrowserRouter>
-      </PlayerContextProvider>
+        </PlayerContextProvider>
+      </BrowserRouter>
     </QueryClientProvider>
   );
 }
