@@ -3,20 +3,19 @@ import { useSong } from "@/features/songs/useSong";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { usePlayer } from "@/context/PlayerContext";
 
 function Song() {
   const { id } = useParams();
-  const { song, isLoading } = useSong(id)
+  const { song, isLoading  } = useSong(id)
   const navigate = useNavigate();
 
 
   return (
     <motion.div
-      initial={{ y: "100%", opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      exit={{ y: "100%", opacity: 0 }}
-      transition={{ duration: 0.5, ease: "easeInOut" }}
+      initial={{ y: "100%" }}
+      animate={{ y: 0}}
+      exit={{ y: "100%" }}
+      transition={{ duration: .5, ease: "easeInOut" }}
       className="margin-auto fixed right-0 top-0 z-50 h-full w-full max-w-[450px] bg-dark p-5 sm:mx-[calc((100%-450px)/2)]"
     >
       <div className="mb-5">
