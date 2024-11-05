@@ -11,6 +11,7 @@ import UploadSong from "./pages/UploadSong";
 import EditSong from "./pages/EditSong";
 import { PlayerContextProvider } from "./context/PlayerContext";
 import Song from "./pages/Song";
+import Favorites from "./pages/Favorites";
 
 function App() {
   const queryClient = new QueryClient({
@@ -23,7 +24,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
+      <ReactQueryDevtools initialIsOpen={false} />
       <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
       <BrowserRouter>
         <PlayerContextProvider>
@@ -39,6 +40,7 @@ function App() {
               <Route path="/songs/:id" element={<Song />} />
               <Route path="/songs/upload" element={<UploadSong />} />
               <Route path="/songs/edit/:id" element={<EditSong />} />
+              <Route path="/favorites" element={<Favorites />} />
             </Route>
             <Route path="/login" element={<Login />} />
           </Routes>
