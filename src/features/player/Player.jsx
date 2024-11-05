@@ -45,14 +45,21 @@ function Player({ song }) {
 
   return (
     <div>
-      <div className="mx-auto mb-5 h-72 w-72 rounded-2xl bg-dark-50">
+      <div
+        className={`mx-auto mb-5 flex h-72 w-72 items-center justify-center rounded-2xl `}
+      >
         <img
-          className="mx-auto h-64 w-64 object-cover"
-          src={headphoneImg}
+          className="h-64 w-64 rounded-2xl object-cover"
+          src={songToPlay.cover || headphoneImg}
           alt={songToPlay.name}
         />
       </div>
-      <h6 className="mb-14 font-bold">{songToPlay.name}</h6>
+      <h6 className="max-w-72 overflow-hidden overflow-ellipsis text-nowrap font-bold">
+        {songToPlay.name}
+      </h6>
+      <span className="mb-14 h-6 mt-1 block max-w-72 overflow-hidden overflow-ellipsis text-nowrap text-slate-200">
+        {songToPlay.artist}
+      </span>
 
       <Slider
         className="cursor-pointer"
@@ -62,9 +69,9 @@ function Player({ song }) {
         step={1}
       />
 
-      <div className="flex items-center justify-between mt-3">
-        <span>{formatTime(audio.currentTime)}</span>
-        <span>{formatTime(audio.duration)}</span>
+      <div className="mt-3 flex items-center justify-between">
+        <span>{formatTime(audio?.currentTime || 0)}</span>
+        <span>{formatTime(songToPlay.duration)}</span>
       </div>
 
       <div className="mt-9 flex items-center justify-between px-6">

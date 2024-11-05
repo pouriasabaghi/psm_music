@@ -33,9 +33,9 @@ function SongItem({ song }) {
     // prevent resets song if song is already playing
     if (song.id !== player.currentSong?.id) {
       player.play(song);
+    } else {
+      navigate(`/songs/${song.id}`);
     }
-
-    navigate(`/songs/${song.id}`);
   }
 
   function handleDelete(id) {
@@ -49,19 +49,19 @@ function SongItem({ song }) {
     <div className="flex cursor-pointer items-center gap-x-3" role="listitem">
       <img
         onClick={handlePlayer}
-        className="h-16 w-16 object-cover"
+        className="h-16 w-16 rounded-lg object-cover"
         width={64}
         height={64}
         src={song.cover || headphoneImg}
-        alt="%song title%"
+        alt={song.name}
       />
       <div onClick={handlePlayer} className="flex flex-col gap-y-1">
         <span
-          className={`max-w-64 overflow-hidden overflow-ellipsis text-nowrap ${player.currentSong?.id === song.id ? "text-purple-500" : "text-white"}`}
+          className={`max-w-52 overflow-hidden overflow-ellipsis text-nowrap ${player.currentSong?.id === song.id ? "text-purple-500" : "text-white"}`}
         >
           {song.name}
         </span>
-        <div className="max-w-64 overflow-hidden overflow-ellipsis text-nowrap text-sm text-slate-200">
+        <div className="min-h-4 max-w-52 overflow-hidden overflow-ellipsis text-nowrap text-sm text-slate-200">
           <span>{song.artist}</span>
           {song.artist && song.album && <span> | </span>}
           <span>{song.album}</span>
