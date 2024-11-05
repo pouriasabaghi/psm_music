@@ -1,6 +1,6 @@
-function AppContainer({children, classes}) {
+function AppContainer({children, classes=''}) {
   return (
-    <main className={`max-w-[450px] m-auto   relative ${classes}`}>
+    <main className={`max-w-[450px] m-auto overflow-hidden  relative ${classes}`}>
       {children}
     </main>
   );

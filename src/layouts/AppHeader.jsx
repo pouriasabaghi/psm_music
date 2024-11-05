@@ -7,7 +7,7 @@ function AppHeader() {
   const isHomePage = location.pathname === "/";
 
   return (
-    <nav className="mb-5 flex items-center gap-x-4">
+    <nav className="mb-5 flex items-center gap-x-4 px-5 pt-5 ">
       {isHomePage ? (
         <NavLink to="/songs/upload">
           <MdCloudUpload color="white" size={30} />
