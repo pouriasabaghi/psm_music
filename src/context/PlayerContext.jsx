@@ -3,6 +3,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 
@@ -74,12 +75,12 @@ function PlayerContextProvider({ children }) {
     }
   }, [play, continues, audio]);
 
-  const stop = useCallback(() => {
+  const stop = () => {
     if (audio) {
       audio.pause();
       setIsPlaying(false);
     }
-  }, [audio]);
+  }
 
   const next = useCallback(
     (navigateToNextSong = false) => {
@@ -158,7 +159,7 @@ function PlayerContextProvider({ children }) {
     };
   }, [audio, isPlaying]);
 
-  const value = {
+  const value = useMemo(()=>({
     currentSong,
     isPlaying,
     setCurrentSong,
@@ -172,7 +173,7 @@ function PlayerContextProvider({ children }) {
     audio,
     mode,
     setMode,
-  };
+  }),[audio, continues, currentSong, isPlaying, mode, next, play, playOrContinues, prev, progress, stop]);
 
   return (
     <PlayerContext.Provider value={value}>{children}</PlayerContext.Provider>
