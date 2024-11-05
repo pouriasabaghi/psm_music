@@ -3,11 +3,13 @@ import { useSong } from "@/features/songs/useSong";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
+import { usePlayer } from "@/context/PlayerContext";
 
 function Song() {
   const { id } = useParams();
-  const { song, isLoading } = useSong(id);
+  const { song, isLoading } = useSong(id)
   const navigate = useNavigate();
+
 
   return (
     <motion.div
@@ -24,7 +26,11 @@ function Song() {
           size={30}
         />
       </div>
-      {isLoading ? <div>Loading....</div> : <Player song={song} />}
+      {isLoading ? (
+        <div>Loading....</div>
+      ) : (
+        <Player song={song} />
+      )}
     </motion.div>
   );
 }

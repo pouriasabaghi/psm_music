@@ -2,10 +2,6 @@ import { usePlayer } from "@/context/PlayerContext";
 import { Slider } from "@/ui/slider";
 import { useEffect } from "react";
 import {
-  MdFavorite,
-  MdFavoriteBorder,
-  MdHeartBroken,
-  MdOutlineModeEditOutline,
   MdPause,
   MdPlayArrow,
   MdRepeat,
@@ -17,6 +13,7 @@ import {
 
 import headphoneImg from "./../../assets/img/headphone.png";
 import { formatTime } from "@/utils/utli";
+import FavoriteButton from "../favorites/FavoriteButton";
 
 function Player({ song }) {
   const {
@@ -46,7 +43,7 @@ function Player({ song }) {
   return (
     <div>
       <div
-        className={`mx-auto mb-5 flex h-72 w-72 items-center justify-center rounded-2xl `}
+        className={`mx-auto mb-5 flex h-72 w-72 items-center justify-center rounded-2xl`}
       >
         <img
           className="h-64 w-64 rounded-2xl object-cover"
@@ -57,7 +54,7 @@ function Player({ song }) {
       <h6 className="max-w-72 overflow-hidden overflow-ellipsis text-nowrap font-bold">
         {songToPlay.name}
       </h6>
-      <span className="mb-14 h-6 mt-1 block max-w-72 overflow-hidden overflow-ellipsis text-nowrap text-slate-200">
+      <span className="mb-14 mt-1 block h-6 max-w-72 overflow-hidden overflow-ellipsis text-nowrap text-slate-200">
         {songToPlay.artist}
       </span>
 
@@ -125,7 +122,7 @@ function Player({ song }) {
           />
         </div>
 
-        <MdFavoriteBorder size={30} className="cursor-pointer text-white" />
+        <FavoriteButton key={songToPlay.id} song={songToPlay} />
       </div>
     </div>
   );
