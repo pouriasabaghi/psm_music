@@ -118,14 +118,16 @@ function PlayerContextProvider({ children }) {
   );
 
   const prev = useCallback(() => {
-    if (currentIndex !== null && currentIndex > 0) {
+    if (currentIndex !== null && currentIndex > 0 && audio.currentTime < 1) {
       const prevIndex = currentIndex - 1;
       setCurrentSong(songs[prevIndex]);
       setCurrentIndex(prevIndex);
       play(songs[prevIndex]);
       navigate(`/songs/${songs[prevIndex].id}`);
+    } else {
+      play(songs[currentIndex]);
     }
-  }, [currentIndex, songs, play, navigate]);
+  }, [currentIndex, songs, play, navigate, audio]);
 
   useEffect(() => {
     if (audio) {

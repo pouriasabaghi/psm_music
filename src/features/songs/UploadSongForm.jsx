@@ -2,25 +2,30 @@ import { useState } from "react";
 import UploadInput from "../../ui/UploadInput";
 
 import { useUploadSong } from "./useUploadSong";
-import {Button} from "../../ui/button";
+import { Button } from "../../ui/button";
 
-function UploadSong() {
+function UploadSongForm() {
   const [progress, setProgress] = useState(0);
   const { upload, isPending, data } = useUploadSong();
 
   async function handleSelectFile(e) {
-    const file = e.target.files[0];
-    upload(
-      { file, setProgress },
-      {
-        onError: (err) => {
-          setProgress(0);
-        },
-        onSuccess: (data) => {
-          setProgress(100);
-        },
-      },
-    );
+    const files = e.target.files;
+    for (const key in files) {
+      if (files.hasOwnProperty(key)) {
+        const file = files[key];
+        upload(
+          { file, setProgress },
+          {
+            onError: (err) => {
+              setProgress(0);
+            },
+            onSuccess: (data) => {
+              setProgress(100);
+            },
+          },
+        );
+      }
+    }
   }
 
   return (
@@ -51,4 +56,4 @@ function UploadSong() {
   );
 }
 
-export default UploadSong;
+export default UploadSongForm;

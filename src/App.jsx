@@ -7,7 +7,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Dashboard from "./pages/Dashboard";
 import AppLayout from "./layouts/AppLayout";
 import ProtectedRoutes from "./layouts/ProtectedRoutes";
-import UploadSong from "./features/songs/UploadSongForm";
+import UploadSong from "./pages/UploadSong";
 import EditSong from "./pages/EditSong";
 import { PlayerContextProvider } from "./context/PlayerContext";
 import Song from "./pages/Song";
@@ -23,7 +23,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
       <BrowserRouter>
         <PlayerContextProvider>

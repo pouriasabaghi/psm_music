@@ -9,8 +9,6 @@ function Song() {
   const { song, isLoading } = useSong(id);
   const navigate = useNavigate();
 
-  if (isLoading) return <div>Loading...</div>;
-
   return (
     <motion.div
       initial={{ y: "100%", opacity: 0 }}
@@ -26,8 +24,7 @@ function Song() {
           size={30}
         />
       </div>
-
-      <Player song={song} />
+      {isLoading ? <div>Loading....</div> : <Player song={song} />}
     </motion.div>
   );
 }

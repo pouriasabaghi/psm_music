@@ -22,6 +22,7 @@ function UploadInput({
               type="file"
               onChange={onSelectFile}
               className="hidden"
+              multiple={true}
             />
           </label>
         </div>
