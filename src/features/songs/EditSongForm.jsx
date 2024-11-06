@@ -17,9 +17,11 @@ function EditSongForm() {
 }
 
 function Form({ song }) {
+  console.log(song);
+  
   const navigate = useNavigate();
   const { register, handleSubmit, formState } = useForm({
-    defaultValues: song,
+    values: song,
   });
 
   const { updateSong, isPending } = useUpdateSong();
@@ -30,7 +32,7 @@ function Form({ song }) {
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-5">
-      <Input label="Name" register={register("name")} />
+      <Input label="Name" register={register("name", { required: true })} />
       <Input label="Album" register={register("album")} />
       <Input label="Artist" register={register("artist")} />
       <Button  disabled={isPending} type="success">
