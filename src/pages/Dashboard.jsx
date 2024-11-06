@@ -3,8 +3,16 @@ import SongList from "../features/songs/SongList";
 import { Link } from "react-router-dom";
 import AppContentBox from "@/layouts/AppContentBox";
 import AppHeader from "@/layouts/AppHeader";
+import { usePlayer } from "@/context/PlayerContext";
+import { useEffect } from "react";
 
 function Dashboard() {
+  const { setList } = usePlayer();
+  useEffect(() => {
+    setList("songs");
+  }, [setList]);
+
+
   return (
     <div>
       <AppHeader />

@@ -14,6 +14,10 @@ body {
   animation-play-state: paused;
 }
 
+*{
+  user-select: none;
+}
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
