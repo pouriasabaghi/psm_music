@@ -15,7 +15,7 @@ function MiniPlayer() {
         onClick={() => navigate(`/songs/${player.currentSong.id}`)}
         className={`${player.isPlaying ? "" : "stop"} animate-spin-slow cursor-pointer overflow-hidden rounded-full bg-dark-200 shadow-[0_0_0_2px_#131319,_0_0_0_4px_#676789,_0_0_0_6px_#131319]`}
       >
-        <img className="h-10 w-10" src={player.currentSong.cover || headphoneImg} alt="" />
+        <img className="h-10 w-10 object-cover" src={player.currentSong.cover || headphoneImg} alt="" />
       </div>
       <div
         onClick={() => navigate(`/songs/${player.currentSong.id}`)}
