@@ -10,6 +10,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { getSongs } from "@/services/apiSongs";
 import { useNavigate } from "react-router-dom";
+import { getFavorites } from "@/services/apiFavorites";
 
 const PlayerContext = createContext(null);
 
@@ -22,11 +23,20 @@ function PlayerContextProvider({ children }) {
   const [progress, setProgress] = useState(0);
   const [audio, setAudio] = useState(null);
   const [mode, setMode] = useState(0);
+  const [list, setList] = useState("songs");
 
   // This data has already been fetched and cached
   const { data: songs = [] } = useQuery({
-    queryKey: ["songs"],
-    queryFn: () => getSongs(),
+    queryKey: [list],
+    queryFn: () => {
+      if (list === "favorites") {
+        return getFavorites();
+      }
+      if (list === "songs") {
+        return getSongs();
+      }
+    },
+    refetchOnMount: true,
   });
 
   const play = useCallback(
@@ -75,12 +85,12 @@ function PlayerContextProvider({ children }) {
     }
   }, [play, continues, audio]);
 
-  const stop = () => {
+  const stop = useCallback(() => {
     if (audio) {
       audio.pause();
       setIsPlaying(false);
     }
-  }
+  }, [audio]);
 
   const next = useCallback(
     (navigateToNextSong = false) => {
@@ -119,7 +129,7 @@ function PlayerContextProvider({ children }) {
   );
 
   const prev = useCallback(() => {
-    if (currentIndex !== null && currentIndex > 0 && audio.currentTime < 1) {
+    if (currentIndex !== null && currentIndex > 0 && audio.currentTime < 10) {
       const prevIndex = currentIndex - 1;
       setCurrentSong(songs[prevIndex]);
       setCurrentIndex(prevIndex);
@@ -159,21 +169,39 @@ function PlayerContextProvider({ children }) {
     };
   }, [audio, isPlaying]);
 
-  const value = useMemo(()=>({
-    currentSong,
-    isPlaying,
-    setCurrentSong,
-    play,
-    continues,
-    stop,
-    next,
-    prev,
-    playOrContinues,
-    progress,
-    audio,
-    mode,
-    setMode,
-  }),[audio, continues, currentSong, isPlaying, mode, next, play, playOrContinues, prev, progress, stop]);
+  const value = useMemo(
+    () => ({
+      currentSong,
+      isPlaying,
+      setCurrentSong,
+      play,
+      continues,
+      stop,
+      next,
+      prev,
+      playOrContinues,
+      progress,
+      audio,
+      mode,
+      setMode,
+      list,
+      setList,
+    }),
+    [
+      audio,
+      continues,
+      currentSong,
+      isPlaying,
+      mode,
+      next,
+      play,
+      playOrContinues,
+      prev,
+      progress,
+      stop,
+      list,
+    ],
+  );
 
   return (
     <PlayerContext.Provider value={value}>{children}</PlayerContext.Provider>
