@@ -9,13 +9,14 @@ import {
 
 import { useQuery } from "@tanstack/react-query";
 import { getSongs } from "@/services/apiSongs";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getFavorites } from "@/services/apiFavorites";
 
 const PlayerContext = createContext(null);
 
 function PlayerContextProvider({ children }) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [currentSong, setCurrentSong] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -94,6 +95,7 @@ function PlayerContextProvider({ children }) {
 
   const next = useCallback(
     (navigateToNextSong = false) => {
+      let songToNavigate;
       if (currentIndex !== null && currentIndex + 1 < songs.length) {
         let nextIndex;
 
@@ -114,15 +116,18 @@ function PlayerContextProvider({ children }) {
 
         setCurrentSong(songs[nextIndex]);
         setCurrentIndex(nextIndex);
+
         play(songs[nextIndex]);
-        if (navigateToNextSong) {
-          navigate(`/songs/${songs[nextIndex].id}`);
-        }
+
+        songToNavigate = songs[nextIndex];
       } else {
         play(songs[0]);
-        if (navigateToNextSong) {
-          navigate(`/songs/${songs[0].id}`);
-        }
+
+        songToNavigate = songs[0];
+      }
+
+      if (navigateToNextSong) {
+        navigate(`/songs/${songToNavigate.id}`);
       }
     },
     [currentIndex, songs, play, mode, navigate],
@@ -140,18 +145,23 @@ function PlayerContextProvider({ children }) {
     }
   }, [currentIndex, songs, play, navigate, audio]);
 
+  // Automatically play next song
   useEffect(() => {
+    // prevent navigation on index page 
+    const goToNextSong = () => next(location.pathname !== "/");
+
     if (audio) {
-      audio.addEventListener("ended", next);
+      audio.addEventListener("ended", goToNextSong);
     }
 
     return () => {
       if (audio) {
-        audio.removeEventListener("ended", next);
+        audio.removeEventListener("ended", goToNextSong);
       }
     };
-  }, [audio, next]);
+  }, [audio, next, location]);
 
+  // Update progress
   useEffect(() => {
     if (!audio) return;
 
