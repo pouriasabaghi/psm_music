@@ -1,5 +1,4 @@
 import { usePlayer } from "@/context/PlayerContext";
-import { Slider } from "@/ui/slider";
 import { useEffect } from "react";
 import {
   MdPause,
@@ -14,6 +13,8 @@ import {
 import headphoneImg from "./../../assets/img/headphone.png";
 import { formatTime } from "@/utils/utli";
 import FavoriteButton from "../favorites/FavoriteButton";
+import { useProgress } from "@/context/ProgressContext";
+import LinearSlider from "./LinearSlider";
 
 function Player({ song }) {
   const {
@@ -24,10 +25,11 @@ function Player({ song }) {
     stop,
     currentSong,
     audio,
-    progress,
     mode,
     dispatch,
   } = usePlayer();
+
+
 
   const songToPlay = currentSong || song;
 
@@ -35,9 +37,7 @@ function Player({ song }) {
     if (!currentSong) dispatch({ type: "song/current", payload: song });
   }, [song, currentSong, dispatch]);
 
-  function handleTimeChange(value) {
-    audio.currentTime = (value[0] * audio.duration) / 100;
-  }
+
 
   return (
     <div>
@@ -57,18 +57,7 @@ function Player({ song }) {
         {songToPlay.artist}
       </span>
 
-      <Slider
-        className="cursor-pointer"
-        value={[progress]}
-        onValueChange={handleTimeChange}
-        max={100}
-        step={1}
-      />
-
-      <div className="mt-3 flex items-center justify-between">
-        <span>{formatTime(audio?.currentTime || 0)}</span>
-        <span>{formatTime(songToPlay.duration)}</span>
-      </div>
+      <LinearSlider song={songToPlay} />
 
       <div className="mt-9 flex items-center justify-between px-6">
         <div>

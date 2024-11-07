@@ -61,12 +61,6 @@ function reducer(state, action) {
         currentIndex: action.payload.currentIndex,
       };
 
-    case "song/progress":
-      return {
-        ...state,
-        progress: action.payload.progress,
-      };
-
     case "song/list":
       return {
         ...state,
@@ -259,28 +253,6 @@ function PlayerContextProvider({ children }) {
     };
   }, [audio, next, location]);
 
-  // Update progress
-  useEffect(() => {
-    if (!audio) return;
-
-    const handleTimeUpdate = () => {
-      if (!isPlaying) return;
-
-      const percentage = (audio.currentTime / audio.duration) * 100;
-      dispatch({
-        type: "song/progress",
-        payload: {
-          progress: percentage,
-        },
-      });
-    };
-
-    audio.addEventListener("timeupdate", handleTimeUpdate);
-
-    return () => {
-      audio.removeEventListener("timeupdate", handleTimeUpdate);
-    };
-  }, [audio, isPlaying]);
 
   const value = useMemo(
     () => ({
@@ -293,7 +265,6 @@ function PlayerContextProvider({ children }) {
       next,
       prev,
       playOrContinues,
-      progress,
       audio,
       mode,
       list,
@@ -308,7 +279,6 @@ function PlayerContextProvider({ children }) {
       play,
       playOrContinues,
       prev,
-      progress,
       stop,
       list,
     ],

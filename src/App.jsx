@@ -12,6 +12,7 @@ import EditSong from "./pages/EditSong";
 import { PlayerContextProvider } from "./context/PlayerContext";
 import Song from "./pages/Song";
 import Favorites from "./pages/Favorites";
+import { ProgressContextProvider } from "./context/ProgressContext";
 
 function App() {
   const queryClient = new QueryClient({
@@ -28,6 +29,8 @@ function App() {
       <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
       <BrowserRouter>
         <PlayerContextProvider>
+          <ProgressContextProvider>
+
           <Routes>
             <Route
               element={
@@ -44,6 +47,7 @@ function App() {
             </Route>
             <Route path="/login" element={<Login />} />
           </Routes>
+          </ProgressContextProvider>
         </PlayerContextProvider>
       </BrowserRouter>
     </QueryClientProvider>
