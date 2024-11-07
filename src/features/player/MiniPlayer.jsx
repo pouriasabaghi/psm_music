@@ -3,9 +3,11 @@ import headphoneImg from "./../../assets/img/headphone.png";
 import { usePlayer } from "../../context/PlayerContext";
 import ProgressSvg from "@/ui/ProgressSvg";
 import { useNavigate } from "react-router-dom";
+import { useProgress } from "@/context/ProgressContext";
+import CircleProgress from "./CircleProgress";
 function MiniPlayer() {
-  const { currentSong, isPlaying, progress, continues, stop, next } =
-    usePlayer();
+  const { currentSong, isPlaying, continues, stop, next } = usePlayer();
+  // const progress  = useProgress();
   const navigate = useNavigate();
 
   if (!currentSong) return null;
@@ -36,8 +38,7 @@ function MiniPlayer() {
 
       <div className="ms-auto flex items-center gap-4">
         <div className="flex items-center justify-center">
-          <ProgressSvg className="absolute" progress={progress} />
-
+          <CircleProgress />
           {isPlaying ? (
             <MdPause
               onClick={() => stop()}
