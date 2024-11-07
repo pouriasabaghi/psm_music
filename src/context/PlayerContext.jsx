@@ -4,7 +4,7 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useState,
+  useReducer,
 } from "react";
 
 import { useQuery } from "@tanstack/react-query";
@@ -14,17 +14,96 @@ import { getFavorites } from "@/services/apiFavorites";
 
 const PlayerContext = createContext(null);
 
+const initialState = {
+  isPlaying: false,
+  currentSong: null,
+  currentIndex: 0,
+  progress: 0,
+  list: "songs",
+  audio: null,
+  mode: 0,
+};
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "song/play":
+      return {
+        ...state,
+        isPlaying: true,
+        currentSong: action.payload.currentSong,
+        currentIndex: action.payload.currentIndex,
+        audio: action.payload.audio,
+      };
+
+    case "song/continue":
+      return {
+        ...state,
+        isPlaying: true,
+      };
+
+    case "song/stop":
+      return {
+        ...state,
+        isPlaying: false,
+      };
+
+    case "song/next":
+      return {
+        ...state,
+        currentSong: action.payload.currentSong,
+        currentIndex: action.payload.currentIndex,
+      };
+
+    case "song/prev":
+      return {
+        ...state,
+        currentSong: action.payload.currentSong,
+        currentIndex: action.payload.currentIndex,
+      };
+
+    case "song/progress":
+      return {
+        ...state,
+        progress: action.payload.progress,
+      };
+
+    case "song/list":
+      return {
+        ...state,
+        list: action.payload,
+      };
+
+    case "song/playing":
+      return {
+        ...state,
+        isPlaying: action.payload,
+      };
+
+    case "song/current":
+      return {
+        ...state,
+        currentSong: action.payload,
+      };
+
+    case "song/mode":
+      return {
+        ...state,
+        mode: action.payload,
+      };
+
+    default:
+      throw new Error(`Unknown action: ${action.type}`);
+  }
+}
+
 function PlayerContextProvider({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [currentSong, setCurrentSong] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(null);
-  const [progress, setProgress] = useState(0);
-  const [audio, setAudio] = useState(null);
-  const [mode, setMode] = useState(0);
-  const [list, setList] = useState("songs");
+  const [
+    { currentSong, isPlaying, currentIndex, progress, audio, mode, list },
+    dispatch,
+  ] = useReducer(reducer, initialState);
 
   // This data has already been fetched and cached
   const { data: songs = [] } = useQuery({
@@ -40,6 +119,9 @@ function PlayerContextProvider({ children }) {
     refetchOnMount: true,
   });
 
+
+  
+
   const play = useCallback(
     async (song = null) => {
       const songToPlay = song || currentSong;
@@ -50,23 +132,26 @@ function PlayerContextProvider({ children }) {
       }
 
       // Pause and replace the previous audio instance if it exists
-      if (audio) {
-        audio.pause();
-      }
+      if (audio) audio.pause();
 
       const newAudio = new Audio(
         `http://localhost:8000/api/songs/${songToPlay.id}/stream`,
       );
 
       newAudio.play();
-      setAudio(newAudio);
 
       // Update the current index when playing a new song
       const newIndex = songs.findIndex((s) => s.id === songToPlay.id);
 
-      setIsPlaying(true);
-      setCurrentSong(songToPlay);
-      setCurrentIndex(newIndex !== -1 ? newIndex : null);
+      // Update the state
+      dispatch({
+        type: "song/play",
+        payload: {
+          currentSong: songToPlay,
+          currentIndex: newIndex,
+          audio: newAudio,
+        },
+      });
     },
     [currentSong, songs, audio],
   );
@@ -74,7 +159,7 @@ function PlayerContextProvider({ children }) {
   const continues = useCallback(() => {
     if (audio) {
       audio.play();
-      setIsPlaying(true);
+      dispatch({ type: "song/playing", payload: true });
     }
   }, [audio]);
 
@@ -89,13 +174,15 @@ function PlayerContextProvider({ children }) {
   const stop = useCallback(() => {
     if (audio) {
       audio.pause();
-      setIsPlaying(false);
+      dispatch({ type: "song/playing", payload: false });
     }
   }, [audio]);
 
   const next = useCallback(
     (navigateToNextSong = false) => {
       let songToNavigate;
+      console.log(songs)
+      
       if (currentIndex !== null && currentIndex + 1 < songs.length) {
         let nextIndex;
 
@@ -114,18 +201,24 @@ function PlayerContextProvider({ children }) {
           nextIndex = Math.floor(Math.random() * songs.length);
         }
 
-        setCurrentSong(songs[nextIndex]);
-        setCurrentIndex(nextIndex);
+        dispatch({
+          type: "song/next",
+          payload: {
+            currentSong: songs[nextIndex],
+            currentIndex: nextIndex,
+          },
+        });
 
         play(songs[nextIndex]);
-
+        
+        
         songToNavigate = songs[nextIndex];
       } else {
         play(songs[0]);
 
         songToNavigate = songs[0];
+        console.log(songToNavigate);
       }
-
       if (navigateToNextSong) {
         navigate(`/songs/${songToNavigate.id}`);
       }
@@ -136,8 +229,13 @@ function PlayerContextProvider({ children }) {
   const prev = useCallback(() => {
     if (currentIndex !== null && currentIndex > 0 && audio.currentTime < 10) {
       const prevIndex = currentIndex - 1;
-      setCurrentSong(songs[prevIndex]);
-      setCurrentIndex(prevIndex);
+      dispatch({
+        type: "song/prev",
+        payload: {
+          currentSong: songs[prevIndex],
+          currentIndex: prevIndex,
+        },
+      });
       play(songs[prevIndex]);
       navigate(`/songs/${songs[prevIndex].id}`);
     } else {
@@ -147,7 +245,7 @@ function PlayerContextProvider({ children }) {
 
   // Automatically play next song
   useEffect(() => {
-    // prevent navigation on index page 
+    // prevent navigation on index page
     const goToNextSong = () => next(location.pathname !== "/");
 
     if (audio) {
@@ -169,7 +267,12 @@ function PlayerContextProvider({ children }) {
       if (!isPlaying) return;
 
       const percentage = (audio.currentTime / audio.duration) * 100;
-      setProgress(percentage);
+      dispatch({
+        type: "song/progress",
+        payload: {
+          progress: percentage,
+        },
+      });
     };
 
     audio.addEventListener("timeupdate", handleTimeUpdate);
@@ -183,7 +286,7 @@ function PlayerContextProvider({ children }) {
     () => ({
       currentSong,
       isPlaying,
-      setCurrentSong,
+      dispatch,
       play,
       continues,
       stop,
@@ -193,9 +296,7 @@ function PlayerContextProvider({ children }) {
       progress,
       audio,
       mode,
-      setMode,
       list,
-      setList,
     }),
     [
       audio,

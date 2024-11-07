@@ -23,18 +23,17 @@ function Player({ song }) {
     isPlaying,
     stop,
     currentSong,
-    setCurrentSong,
     audio,
     progress,
     mode,
-    setMode,
+    dispatch,
   } = usePlayer();
 
   const songToPlay = currentSong || song;
 
   useEffect(() => {
-    if (!currentSong) setCurrentSong(song);
-  }, [song, currentSong, setCurrentSong]);
+    if (!currentSong) dispatch({ type: "song/current", payload: song });
+  }, [song, currentSong, dispatch]);
 
   function handleTimeChange(value) {
     audio.currentTime = (value[0] * audio.duration) / 100;
@@ -75,21 +74,21 @@ function Player({ song }) {
         <div>
           {mode === 0 && (
             <MdRepeat
-              onClick={() => setMode(1)}
+              onClick={() => dispatch({ type: "song/mode", payload: 1 })}
               size={30}
               className="cursor-pointer text-white"
             />
           )}
           {mode === 1 && (
             <MdRepeatOne
-              onClick={() => setMode(2)}
+              onClick={() => dispatch({ type: "song/mode", payload: 2 })}
               size={30}
               className="cursor-pointer text-white"
             />
           )}
           {mode === 2 && (
             <MdShuffle
-              onClick={() => setMode(0)}
+              onClick={() => dispatch({ type: "song/mode", payload: 0 })}
               size={30}
               className="cursor-pointer text-white"
             />

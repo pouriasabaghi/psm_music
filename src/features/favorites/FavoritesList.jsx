@@ -6,10 +6,10 @@ import { usePlayer } from "@/context/PlayerContext";
 function FavoritesList() {
   const { favorites, isLoading } = useFavorites();
 
-  const { setList } = usePlayer();
+  const { dispatch } = usePlayer();
   useEffect(() => {
-    setList("favorites");
-  }, [setList]);
+    dispatch({ type: "song/list", payload: "favorites" });
+  }, [dispatch]);
 
   if (isLoading) return null;
 

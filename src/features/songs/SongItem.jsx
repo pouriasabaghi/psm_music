@@ -28,20 +28,21 @@ import {
 function SongItem({ song }) {
   const navigate = useNavigate();
   const { deleteSong } = useDeleteSong();
-  const player = usePlayer();
+  const {dispatch,currentSong, play, stop} = usePlayer();
+
   function handlePlayer() {
     // prevent resets song if song is already playing
-    if (song.id !== player.currentSong?.id) {
-      player.play(song);
+    if (song.id !== currentSong?.id) {
+      play(song);
     } else {
       navigate(`/songs/${song.id}`);
     }
   }
 
   function handleDelete(id) {
-    if (player.currentSong?.id === id) {
-      player.stop();
-      player.setCurrentSong(null);
+    if (currentSong?.id === id) {
+      stop();
+     dispatch({type: 'song/current', payload: null}) ;
     }
     deleteSong(id);
   }
@@ -57,7 +58,7 @@ function SongItem({ song }) {
       />
       <div onClick={handlePlayer} className="flex flex-col gap-y-1">
         <span
-          className={`max-w-52 overflow-hidden overflow-ellipsis text-nowrap ${player.currentSong?.id === song.id ? "text-purple-500" : "text-white"}`}
+          className={`max-w-52 overflow-hidden overflow-ellipsis text-nowrap ${currentSong?.id === song.id ? "text-purple-500" : "text-white"}`}
         >
           {song.name}
         </span>

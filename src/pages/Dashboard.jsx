@@ -7,10 +7,10 @@ import { usePlayer } from "@/context/PlayerContext";
 import { useEffect } from "react";
 
 function Dashboard() {
-  const { setList } = usePlayer();
+  const { dispatch } = usePlayer();
   useEffect(() => {
-    setList("songs");
-  }, [setList]);
+    dispatch({type: "song/list", payload: "songs"});
+  }, [dispatch]);
 
 
   return (
