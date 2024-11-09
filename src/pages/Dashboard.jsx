@@ -25,7 +25,7 @@ function Dashboard() {
             </Link>
           </div>
           <div className="bg- col-span-4 rounded-lg bg-gradient-to-tr from-green-900 to-green-600 px-2 py-2">
-            <Link to="/favorites" className="">
+            <Link to="/playlists" className="">
               <MdQueueMusic size={30} color="white" />
               <span className="block font-bold">Playlists</span>
             </Link>

@@ -2,6 +2,7 @@ import {
   MdDeleteOutline,
   MdMoreVert,
   MdOutlineModeEditOutline,
+  MdQueueMusic,
 } from "react-icons/md";
 import { usePlayer } from "../../context/PlayerContext";
 import headphoneImg from "./../../assets/img/headphone.png";
@@ -24,11 +25,12 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/ui/alert-dialog";
+import AddSongToPlaylist from "../playlist/AddSongToPlaylist";
 
 function SongItem({ song }) {
   const navigate = useNavigate();
   const { deleteSong } = useDeleteSong();
-  const {dispatch,currentSong, play, stop} = usePlayer();
+  const { dispatch, currentSong, play, stop } = usePlayer();
 
   function handlePlayer() {
     // prevent resets song if song is already playing
@@ -42,7 +44,7 @@ function SongItem({ song }) {
   function handleDelete(id) {
     if (currentSong?.id === id) {
       stop();
-     dispatch({type: 'song/current', payload: null}) ;
+      dispatch({ type: "song/current", payload: null });
     }
     deleteSong(id);
   }
@@ -82,9 +84,18 @@ function SongItem({ song }) {
                 <MdOutlineModeEditOutline className="mr-1" size={20} />
                 <Link to={`songs/edit/${song.id}`}>Edit</Link>
               </DropdownMenuItem>
+
               <DropdownMenuItem className="cursor-pointer">
                 <MdDeleteOutline />
                 <AlertDialogTrigger>Delete</AlertDialogTrigger>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem className="cursor-pointer">
+                <MdQueueMusic />
+                <AddSongToPlaylist
+                  song={song}
+                  trigger={<span>Add to playlist</span>}
+                />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
