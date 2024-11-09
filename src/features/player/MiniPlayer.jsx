@@ -1,9 +1,7 @@
 import { MdPlayArrow, MdPause, MdSkipNext } from "react-icons/md";
 import headphoneImg from "./../../assets/img/headphone.png";
 import { usePlayer } from "../../context/PlayerContext";
-import ProgressSvg from "@/ui/ProgressSvg";
 import { useNavigate } from "react-router-dom";
-import { useProgress } from "@/context/ProgressContext";
 import CircleProgress from "./CircleProgress";
 function MiniPlayer() {
   const { currentSong, isPlaying, continues, stop, next } = usePlayer();
