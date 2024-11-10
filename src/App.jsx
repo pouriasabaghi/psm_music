@@ -15,6 +15,8 @@ import Song from "./pages/Song";
 import Favorites from "./pages/Favorites";
 import { ProgressContextProvider } from "./context/ProgressContext";
 import Playlists from "./pages/Playlists";
+import Playlist from "./pages/Playlist";
+import EditPlaylist from "./pages/EditPlaylist";
 
 function App() {
   const queryClient = new QueryClient({
@@ -49,6 +51,8 @@ function App() {
               <Route path="/songs/edit/:id" element={<EditSong />} />
               <Route path="/favorites" element={<Favorites />} />
               <Route path="/playlists" element={<Playlists />} />
+              <Route path="/playlists/:id/:name" element={<Playlist />} />
+              <Route path="/playlists/edit/:id" element={<EditPlaylist />} />
             </Route>
             <Route path="/login" element={<Login />} />
           </Routes>
