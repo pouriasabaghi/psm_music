@@ -1,8 +1,9 @@
 import headphone from "@/assets/img/headphone.png";
 import OneLineText from "@/ui/OneLineText";
+import { Link } from "react-router-dom";
 function PlaylistItem({ playlist }) {
   return (
-    <div className="col-span-6 cursor-pointer">
+    <Link to={`/playlists/${playlist.id}/${playlist.name}`} className="col-span-6 cursor-pointer">
       <img
         src={playlist.cover || headphone}
         alt={playlist.name}
@@ -16,7 +17,7 @@ function PlaylistItem({ playlist }) {
       ) : (
         <small>No song </small>
       )}
-    </div>
+    </Link>
   );
 }
 

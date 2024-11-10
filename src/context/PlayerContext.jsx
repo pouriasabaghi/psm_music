@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getSongs } from "@/services/apiSongs";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getFavorites } from "@/services/apiFavorites";
+import { getPlaylistSongsById } from "@/services/apiPlaylists";
 
 const PlayerContext = createContext(null);
 
@@ -108,6 +109,10 @@ function PlayerContextProvider({ children }) {
       }
       if (list === "songs") {
         return getSongs();
+      }
+
+      if(typeof Number(list) === "number") {
+        return getPlaylistSongsById(list);
       }
     },
     refetchOnMount: true,
