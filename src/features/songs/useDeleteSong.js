@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteSong as deleteSongApi } from "@/services/apiSongs";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 export function useDeleteSong() {
   const queryClient = useQueryClient();

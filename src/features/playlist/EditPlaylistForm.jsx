@@ -2,7 +2,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useUpdatePlaylist } from "./useUpdatePlaylist";
 
 import { useForm } from "react-hook-form";
-import Input from "../../ui/Input";
+import { Input } from "@/ui/input";
 import { Button } from "../../ui/button";
 
 import { usePlaylist } from "./usePlaylist";
@@ -31,7 +31,7 @@ function Form({ playlist }) {
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-5">
-      <Input label="Name" register={register("name", { required: true })} />
+      <Input placeholder="Name" {...register("name", { required: true })} />
       <Button disabled={isPending} type="success">
         Save
       </Button>

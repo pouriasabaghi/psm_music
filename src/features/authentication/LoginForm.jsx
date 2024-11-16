@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
 
-import Input from "../../ui/Input";
+import { Input } from "@/ui/input";
 import { useLogin } from "./useLogin";
 import { Button } from "@/ui/button";
 
+import logo from './../../assets/img/myplaylists-logo.svg'
 function LoginForm() {
   const {
     register,
@@ -18,26 +19,31 @@ function LoginForm() {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="m-auto w-full rounded-lg bg-dark px-4 py-4"
-    >
-      <Input
-        register={register("email", { required: "Email is required" })}
-        label="Email"
-        type="email"
-        autoComplete="email"
-        error={errors.email?.message}
-      />
-      <Input
-        register={register("password", { required: "Password is required" })}
-        label="Password"
-        type="password"
-        autoComplete="password"
-        error={errors.password?.message}
-      />
-      <Button disabled={isPending}>{isPending ? "Loading..." : "Login"}</Button>
-    </form>
+    <div className="px-3 mt-6">
+      <img className="h-28 mx-auto rounded-lg mb-3 w-full object-cover" src={logo} alt="myplaylists logo " />
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="m-auto flex w-full flex-col gap-y-3 rounded-lg bg-dark px-4 py-10"
+      >
+        <Input
+          {...register("email", { required: "Email is required" })}
+          placeholder="Email"
+          type="email"
+          autoComplete="email"
+          error={errors.email?.message}
+        />
+        <Input
+          {...register("password", { required: "Password is required" })}
+          placeholder="Password"
+          type="password"
+          autoComplete="password"
+          error={errors.password?.message}
+        />
+        <Button disabled={isPending}>
+          {isPending ? "Loading..." : "Login"}
+        </Button>
+      </form>
+    </div>  
   );
 }
 

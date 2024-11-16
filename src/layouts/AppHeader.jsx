@@ -1,5 +1,5 @@
 import { MdArrowBack, MdCloudUpload } from "react-icons/md";
-import Input from "../ui/Input";
+import { Input } from "@/ui/input";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 function AppHeader() {
   const location = useLocation();

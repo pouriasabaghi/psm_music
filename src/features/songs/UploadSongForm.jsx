@@ -3,10 +3,12 @@ import UploadInput from "../../ui/UploadInput";
 
 import { useUploadSong } from "./useUploadSong";
 import { Button } from "../../ui/button";
+import { useNavigate } from "react-router-dom";
 
 function UploadSongForm() {
   const [progress, setProgress] = useState(0);
   const { upload, isPending, data } = useUploadSong();
+  const navigate = useNavigate();
 
   async function handleSelectFile(e) {
     const files = e.target.files;
@@ -45,7 +47,7 @@ function UploadSongForm() {
         />
         {progress === 100 && (
           <>
-            <Button tag="a" to={`/songs/edit/${data?.song.id}`}>
+            <Button onClick={()=>navigate(`/songs/edit/${data?.song.id}`)}>
               Edit song info
             </Button>
             <Button onClick={() => setProgress(0)}>Upload new one</Button>
