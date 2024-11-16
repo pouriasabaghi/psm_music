@@ -31,7 +31,7 @@ function Dashboard() {
             </Link>
           </div>
           <div className="bg- col-span-4 rounded-lg bg-gradient-to-tr from-yellow-900 to-yellow-600 px-2 py-2">
-            <Link to="/favorites" className="">
+            <Link to="/#" className="">
               <MdTimer size={30} color="white" />
               <span className="block font-bold">Recent</span>
             </Link>

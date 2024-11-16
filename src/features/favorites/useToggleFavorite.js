@@ -1,6 +1,6 @@
 import { toggleFavorite as toggleFavoriteApi } from "@/services/apiFavorites";
 import { useMutation, useQueryClient,  } from "@tanstack/react-query";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 export function useToggleFavorite() {
   const queryClient = useQueryClient();

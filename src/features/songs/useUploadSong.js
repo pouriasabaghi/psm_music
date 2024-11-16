@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { uploadSong } from "../../services/apiSongs";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 export function useUploadSong() {
   const queryClient = useQueryClient();
@@ -11,6 +11,7 @@ export function useUploadSong() {
       queryClient.invalidateQueries({ queryKey: ["songs"] });
       toast.success(data.message);
     },
+
     onError: (err) => {
       console.error("ERROR", err);
       toast.error(err.response.data.error);

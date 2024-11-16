@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateSong as updateSongApi } from "../../services/apiSongs";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 export function useUpdateSong() {
   const queryClient = useQueryClient();
