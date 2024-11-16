@@ -11,9 +11,7 @@ import {
 } from "react-icons/md";
 
 import headphoneImg from "./../../assets/img/headphone.png";
-import { formatTime } from "@/utils/utli";
 import FavoriteButton from "../favorites/FavoriteButton";
-import { useProgress } from "@/context/ProgressContext";
 import LinearSlider from "./LinearSlider";
 
 function Player({ song }) {
@@ -24,7 +22,6 @@ function Player({ song }) {
     isPlaying,
     stop,
     currentSong,
-    audio,
     mode,
     dispatch,
   } = usePlayer();

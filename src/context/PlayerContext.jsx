@@ -12,6 +12,7 @@ import { getSongs } from "@/services/apiSongs";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getFavorites } from "@/services/apiFavorites";
 import { getPlaylistSongsById } from "@/services/apiPlaylists";
+import { API_BASE_URL } from "@/utils/http";
 
 const PlayerContext = createContext(null);
 
@@ -96,7 +97,7 @@ function PlayerContextProvider({ children }) {
   const location = useLocation();
 
   const [
-    { currentSong, isPlaying, currentIndex, progress, audio, mode, list },
+    { currentSong, isPlaying, currentIndex, audio, mode, list },
     dispatch,
   ] = useReducer(reducer, initialState);
 
@@ -134,7 +135,7 @@ function PlayerContextProvider({ children }) {
       if (audio) audio.pause();
 
       const newAudio = new Audio(
-        `http://localhost:8000/api/songs/${songToPlay.id}/stream`,
+        `${API_BASE_URL}/api/songs/${songToPlay.id}/stream`,
       );
 
       newAudio.play();
