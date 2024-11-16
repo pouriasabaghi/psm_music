@@ -2,7 +2,6 @@ import {
   MdDeleteOutline,
   MdMoreVert,
   MdOutlineModeEditOutline,
-  MdQueueMusic,
 } from "react-icons/md";
 import { usePlayer } from "../../context/PlayerContext";
 import headphoneImg from "./../../assets/img/headphone.png";
@@ -13,8 +12,6 @@ import {
   DropdownMenuTrigger,
 } from "@/ui/dropdown-menu";
 import { Link, useNavigate, useParams } from "react-router-dom";
-
-import AddSongToPlaylist from "../playlist/AddSongToPlaylist";
 import useRemoveFromPlaylist from "./useRemoveFromPlaylist";
 
 function PlaylistSong({ song }) {
@@ -32,8 +29,8 @@ function PlaylistSong({ song }) {
     }
   }
 
-  function handleRemove(songId) {    
-    removeFromPlaylist({playlistId, songId});
+  function handleRemove(songId) {
+    removeFromPlaylist({ playlistId, songId });
   }
   return (
     <div className="flex cursor-pointer items-center gap-x-3" role="listitem">
@@ -71,7 +68,11 @@ function PlaylistSong({ song }) {
               <Link to={`/songs/edit/${song.id}`}>Edit</Link>
             </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={() => handleRemove(song.id)} className="cursor-pointer">
+            <DropdownMenuItem
+              disabled={isPending}
+              onClick={() => handleRemove(song.id)}
+              className="cursor-pointer"
+            >
               <MdDeleteOutline className="mr-1" size={20} />
               <span>Remove from playlist</span>
             </DropdownMenuItem>

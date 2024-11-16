@@ -1,6 +1,8 @@
 import http, { upload } from "../utils/http";
 import axios from "axios";
 
+import { API_BASE_URL } from "../utils/http";
+
 export const getSongs = async () => {
   const response = await http.get("/api/songs");
   return response.data;
@@ -49,7 +51,7 @@ export const deleteSong = async (id) => {
 export const getStreamFile = async (id) => {
   if (!id) return;
 
-  const response = await axios.get(`http://localhost:8000/api/songs/${id}/stream`);
+  const response = await axios.get(`${API_BASE_URL}/api/songs/${id}/stream`);
   return response.data;
 };
 

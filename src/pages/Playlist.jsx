@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import AppContentBox from "@/layouts/AppContentBox";
 import { usePlayer } from "@/context/PlayerContext";
 import { useEffect } from "react";

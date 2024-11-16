@@ -19,7 +19,6 @@ function CreatePlayListForm() {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
   } = useForm();
 
   const [open, setOpen] = useState(false);

@@ -18,7 +18,7 @@ function EditSongForm() {
 
 function Form({ song }) {
   const navigate = useNavigate();
-  const { register, handleSubmit, formState } = useForm({
+  const { register, handleSubmit } = useForm({
     values: song,
   });
 
