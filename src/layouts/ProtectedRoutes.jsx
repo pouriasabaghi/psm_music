@@ -5,15 +5,18 @@ import { useEffect } from "react";
 function ProtectedRoutes({ children }) {
   const navigate = useNavigate();
   const { isLoading, isAuthenticated } = useUser();
-    
-  return children
-  useEffect(() => {
-    if (!isAuthenticated && !isLoading) return true;
-  }, [isAuthenticated, isLoading, navigate]);
   
+  useEffect(() => {
+    if (!isAuthenticated && !isLoading) {
+      navigate('/login')
+    };
+  }, [isAuthenticated, isLoading, navigate]);
+
   if (isLoading) return <div>Loading...</div>;
 
   if (isAuthenticated) return children;
+
+  return children;
 }
 
 export default ProtectedRoutes;
