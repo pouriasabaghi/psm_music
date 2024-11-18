@@ -12,7 +12,7 @@ export function useUpdateSong() {
       queryClient.invalidateQueries({ queryKey: ["songs"] });
     },
     onError: (err) => {
-      toast.error(err.response.data.error);
+      toast.error(err.response.data.message);
     }
   });
 

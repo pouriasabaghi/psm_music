@@ -14,7 +14,7 @@ export function useUploadSong() {
 
     onError: (err) => {
       console.error("ERROR", err);
-      toast.error(err.response.data.error);
+      toast.error(err.response.data.message);
     },
 
   });

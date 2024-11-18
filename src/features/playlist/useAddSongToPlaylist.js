@@ -9,7 +9,7 @@ function useAddSongToPlaylist() {
             toast.success(data.message);
         },
         onError: (err) => {
-            toast.error(err.response.data.error);
+            toast.error(err.response.data.message);
         },
     });
 

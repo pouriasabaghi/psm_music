@@ -7,7 +7,7 @@ export function useToggleFavorite() {
   const { mutate: toggleFavorite, isPending } = useMutation({
     mutationFn: (id) => toggleFavoriteApi(id),
     onError: (err) => {
-      toast.error(err.response.data.error);
+      toast.error(err.response.data.message);
       queryClient.invalidateQueries({ queryKey: ["favorites"] });
     },
   });

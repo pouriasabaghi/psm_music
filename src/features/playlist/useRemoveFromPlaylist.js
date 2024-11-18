@@ -12,7 +12,7 @@ const useRemoveFromPlaylist = () => {
           queryClient.invalidateQueries({ queryKey: ["playlist"] });
         },
         onError: (err) => {
-          toast.error(err.response.data.error);
+          toast.error(err.response.data.message);
         },
       });
     
