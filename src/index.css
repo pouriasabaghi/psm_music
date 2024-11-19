@@ -14,6 +14,30 @@ body {
   animation-play-state: paused;
 }
 
+.bg-glass-loader::after{
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  background-color: rgba(255, 255, 255, .03);
+  z-index: 0;
+  animation: ltr 1s ease-out infinite;
+  transition: left 1s ease-out;
+
+}
+
+.bg-glass-loader{
+  overflow: hidden;
+  position: relative;
+}
+
+.bg-glass-loader > *{
+  position: relative;
+  z-index: 1;
+}
+
+
 *{
   user-select: none;
 }
@@ -24,6 +48,15 @@ body {
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes ltr {
+  from {
+    left: -100%;
+  }
+  to {
+    left: 100%;
   }
 }
 

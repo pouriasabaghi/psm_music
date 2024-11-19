@@ -13,6 +13,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { getFavorites } from "@/services/apiFavorites";
 import { getPlaylistSongsById } from "@/services/apiPlaylists";
 import { API_BASE_URL } from "@/utils/http";
+import { toast } from "sonner";
 
 const PlayerContext = createContext(null);
 
@@ -20,7 +21,6 @@ const initialState = {
   isPlaying: false,
   currentSong: null,
   currentIndex: 0,
-  progress: 0,
   list: "songs",
   audio: null,
   mode: 0,
@@ -28,6 +28,11 @@ const initialState = {
 
 function reducer(state, action) {
   switch (action.type) {
+    case "song/loading":
+      return {
+        ...state,
+        isLoading: action.payload,
+      };
     case "song/play":
       return {
         ...state,
@@ -97,7 +102,7 @@ function PlayerContextProvider({ children }) {
   const location = useLocation();
 
   const [
-    { currentSong, isPlaying, currentIndex, audio, mode, list },
+    { currentSong, isPlaying, currentIndex, audio, mode, list, isLoading },
     dispatch,
   ] = useReducer(reducer, initialState);
 
@@ -112,46 +117,53 @@ function PlayerContextProvider({ children }) {
         return getSongs();
       }
 
-      if(typeof Number(list) === "number") {
+      if (typeof Number(list) === "number") {
         return getPlaylistSongsById(list);
       }
     },
     refetchOnMount: true,
   });
 
-
-  
-
   const play = useCallback(
     async (song = null) => {
-      const songToPlay = song || currentSong;
+      try {
+        const songToPlay = song || currentSong;
 
-      if (!songToPlay || !songToPlay.path) {
-        console.error("No song available to play.");
-        return;
+        if (!songToPlay || !songToPlay.path) {
+          console.error("No song available to play.");
+          return;
+        }
+
+        // Pause and replace the previous audio instance if it exists
+        if (audio) {
+          audio.pause();
+          audio.src = "";
+        }
+
+        dispatch({ type: "song/loading", payload: true });
+
+        const newAudio = new Audio(
+          `${API_BASE_URL}/api/songs/${songToPlay.id}/stream`,
+        );
+
+        // Try to play the audio
+        newAudio.play();
+
+        // Update the current index when playing a new song
+        const newIndex = songs.findIndex((s) => s.id === songToPlay.id);
+
+        // Update the state
+        dispatch({
+          type: "song/play",
+          payload: {
+            currentSong: songToPlay,
+            currentIndex: newIndex,
+            audio: newAudio,
+          },
+        });
+      } catch (error) {
+        toast.error("Failed to play song.");
       }
-
-      // Pause and replace the previous audio instance if it exists
-      if (audio) audio.pause();
-
-      const newAudio = new Audio(
-        `${API_BASE_URL}/api/songs/${songToPlay.id}/stream`,
-      );
-
-      newAudio.play();
-
-      // Update the current index when playing a new song
-      const newIndex = songs.findIndex((s) => s.id === songToPlay.id);
-
-      // Update the state
-      dispatch({
-        type: "song/play",
-        payload: {
-          currentSong: songToPlay,
-          currentIndex: newIndex,
-          audio: newAudio,
-        },
-      });
     },
     [currentSong, songs, audio],
   );
@@ -181,8 +193,8 @@ function PlayerContextProvider({ children }) {
   const next = useCallback(
     (navigateToNextSong = false) => {
       let songToNavigate;
-      console.log(songs)
-      
+      console.log(songs);
+
       if (currentIndex !== null && currentIndex + 1 < songs.length) {
         let nextIndex;
 
@@ -210,8 +222,7 @@ function PlayerContextProvider({ children }) {
         });
 
         play(songs[nextIndex]);
-        
-        
+
         songToNavigate = songs[nextIndex];
       } else {
         play(songs[0]);
@@ -259,6 +270,19 @@ function PlayerContextProvider({ children }) {
     };
   }, [audio, next, location]);
 
+  // On audio start playing
+  useEffect(() => {
+    const setLoader = () => dispatch({ type: "song/loading", payload: false });
+    if (audio) {
+      audio.addEventListener("canplay", setLoader);
+    }
+
+    return () => {
+      if (audio) {
+        audio.removeEventListener("canplay", setLoader);
+      }
+    };
+  }, [audio, dispatch]);
 
   const value = useMemo(
     () => ({
@@ -274,6 +298,7 @@ function PlayerContextProvider({ children }) {
       audio,
       mode,
       list,
+      isLoading,
     }),
     [
       audio,
@@ -287,6 +312,7 @@ function PlayerContextProvider({ children }) {
       prev,
       stop,
       list,
+      isLoading,
     ],
   );
 
