@@ -17,6 +17,7 @@ import { ProgressContextProvider } from "./context/ProgressContext";
 import Playlists from "./pages/Playlists";
 import Playlist from "./pages/Playlist";
 import EditPlaylist from "./pages/EditPlaylist";
+import SharePlaylist from "./pages/SharePlaylist";
 
 function App() {
   const queryClient = new QueryClient({
@@ -31,31 +32,38 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
       <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
-      <Sonner  />
-      
+      <Sonner />
+
       <BrowserRouter>
         <PlayerContextProvider>
           <ProgressContextProvider>
+            <Routes>
+              <Route
+                element={
+                  <ProtectedRoutes>
+                    <AppLayout />
+                  </ProtectedRoutes>
+                }
+              >
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/songs/upload" element={<UploadSong />} />
+                <Route path="/songs/edit/:id" element={<EditSong />} />
+                <Route path="/favorites" element={<Favorites />} />
+                <Route path="/playlists" element={<Playlists />} />
+                <Route path="/playlists/:id/:name" element={<Playlist />} />
+                <Route path="/playlists/edit/:id" element={<EditPlaylist />} />
+              </Route>
 
-          <Routes>
-            <Route
-              element={
-                <ProtectedRoutes>
-                  <AppLayout />
-                </ProtectedRoutes>
-              }
-            >
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/songs/:id" element={<Song />} />
-              <Route path="/songs/upload" element={<UploadSong />} />
-              <Route path="/songs/edit/:id" element={<EditSong />} />
-              <Route path="/favorites" element={<Favorites />} />
-              <Route path="/playlists" element={<Playlists />} />
-              <Route path="/playlists/:id/:name" element={<Playlist />} />
-              <Route path="/playlists/edit/:id" element={<EditPlaylist />} />
-            </Route>
-            <Route path="/login" element={<Login />} />
-          </Routes>
+              <Route element={<AppLayout />}>
+                <Route path="/songs/:id" element={<Song />} />
+                <Route
+                  path="/playlists/share/:id/:name"
+                  element={<SharePlaylist />}
+                />
+              </Route>
+
+              <Route path="/login" element={<Login />} />
+            </Routes>
           </ProgressContextProvider>
         </PlayerContextProvider>
       </BrowserRouter>

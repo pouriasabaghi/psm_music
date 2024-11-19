@@ -58,7 +58,7 @@ function SongItem({ song }) {
         src={song.cover || headphoneImg}
         alt={song.name}
       />
-      <div onClick={handlePlayer} className="flex flex-col gap-y-1">
+      <div onClick={handlePlayer} className="flex flex-col gap-y-1 w-full">
         <span
           className={`max-w-52 overflow-hidden overflow-ellipsis text-nowrap ${currentSong?.id === song.id ? "text-purple-500" : "text-white"}`}
         >

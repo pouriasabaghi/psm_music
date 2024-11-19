@@ -2,11 +2,12 @@ import { Link } from "react-router-dom";
 import SongItem from "./SongItem";
 import { useSongs } from "./useSongs";
 import { Button } from "@/ui/button";
+import SongSkeleton from "@/ui/SongSkeleton";
 
 function SongList() {
   const { songs, isPending } = useSongs();
 
-  if (isPending) return <div>Loading...</div>;
+  if (isPending) return <SongSkeleton count={7} />;
 
   if (songs.length === 0)
     return (
