@@ -22,6 +22,9 @@ export const usePlaylistFollowToggle = () => {
 
       toast.error(err.response.data.message);
     },
+    onMutate:()=>{
+      toast.success('Following...')
+    }
   });
 
   return { toggleFollow, isPending };

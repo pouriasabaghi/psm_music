@@ -3,6 +3,7 @@ import { MdBookmark, MdBookmarkBorder } from "react-icons/md";
 import { usePlaylistFollowToggle } from "./usePlaylistFollowToggle";
 import { useIsFollowing } from "./useIsFollowing";
 
+
 function PlaylistFollowButton({ playlistId }) {
   const { toggleFollow, isPending } = usePlaylistFollowToggle();
   const { isFollowing, isLoading } = useIsFollowing(playlistId);
@@ -21,13 +22,10 @@ function PlaylistFollowButton({ playlistId }) {
     });
   }
 
-  if (isLoading) return null;
-
   return (
     <div className="flex justify-end">
       {!follow && (
         <MdBookmarkBorder
-          disabled={isPending}
           size={30}
           className="cursor-pointer"
           onClick={handleToggle}
@@ -35,7 +33,6 @@ function PlaylistFollowButton({ playlistId }) {
       )}
       {follow && (
         <MdBookmark
-          disabled={isPending}
           size={30}
           className="cursor-pointer"
           onClick={handleToggle}

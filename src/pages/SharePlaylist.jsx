@@ -28,7 +28,7 @@ function SharePlaylist() {
       <AppContentBox>
         <div className="space-y-4" role="list">
           {isLoading ? (
-            <SongSkeleton count={7} />
+            <SongSkeleton count={8} />
           ) : (
             songs.map((song) => <PlaylistSong key={song.id} song={song} />)
           )}

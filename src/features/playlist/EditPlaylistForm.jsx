@@ -6,13 +6,14 @@ import { Input } from "@/ui/input";
 import { Button } from "../../ui/button";
 
 import { usePlaylist } from "./usePlaylist";
+import FullPageSpinner from "@/ui/FullPageSpinner";
 
 function EditPlaylistForm() {
   const { id } = useParams();
 
   const { playlist, isLoading } = usePlaylist(id);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <FullPageSpinner />;
 
   return <Form playlist={playlist} />;
 }

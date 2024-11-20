@@ -29,6 +29,7 @@ import {
 import { AlertDialogFooter, AlertDialogHeader } from "@/ui/alert-dialog";
 import useDeletePlaylist from "@/features/playlist/useDeletePlaylist";
 import { toast } from "sonner";
+import { copyToClipboard } from "@/utils/utli";
 
 function Playlist() {
   const { id, name } = useParams();
@@ -47,7 +48,7 @@ function Playlist() {
       <AppContentBox>
         <div className="space-y-4" role="list">
           {isLoading ? (
-            <SongSkeleton count={7} />
+            <SongSkeleton count={8} />
           ) : (
             songs.map((song) => <PlaylistSong key={song.id} song={song} />)
           )}
@@ -66,13 +67,7 @@ function PlaylistDropdown({ playlistId, name }) {
 
   async function handleCopy() {
     const url = `${window.location.origin}/playlists/share/${playlistId}/${name}`;
-    try {
-      await navigator.clipboard.writeText(url);
-      toast.success("Copied to clipboard");
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to copy");
-    }
+    await copyToClipboard(url);
   }
 
   return (

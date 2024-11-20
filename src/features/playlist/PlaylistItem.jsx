@@ -11,7 +11,7 @@ function PlaylistItem({ playlist }) {
           alt={playlist.name}
           className="mx-auto h-40 w-full rounded-lg object-cover sm:h-44"
         />
-        <OneLineText className="max-w-40 font-bold mt-1">
+        <OneLineText className="mt-1 max-w-40 font-bold">
           <h6>{playlist.name}</h6>
         </OneLineText>
         {playlist.total_songs ? (
@@ -21,9 +21,15 @@ function PlaylistItem({ playlist }) {
         )}
       </Link>
       {playlist.isFollowed && (
-        <div className="absolute left-2 top-2 bg-[#00000054] p-0 w-[35px] h-[35px] justify-center items-center rounded-[4px] flex">
-          <PlaylistFollowButton playlistId={playlist.id} />
-        </div>
+        <>
+          <div className="absolute left-2 top-2 flex h-[35px] w-[35px] items-center justify-center rounded-[4px] bg-[#00000054]">
+            <PlaylistFollowButton playlistId={playlist.id} />
+          </div>
+
+          <div className="absolute bottom-16 left-2 flex rounded-[4px] bg-[#00000054] px-2 py-1 text-sm font-bold">
+            <span>{playlist.owner_name}</span>
+          </div>
+        </>
       )}
     </div>
   );

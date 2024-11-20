@@ -193,7 +193,6 @@ function PlayerContextProvider({ children }) {
   const next = useCallback(
     (navigateToNextSong = false) => {
       let songToNavigate;
-      console.log(songs);
 
       if (currentIndex !== null && currentIndex + 1 < songs.length) {
         let nextIndex;
@@ -228,10 +227,9 @@ function PlayerContextProvider({ children }) {
         play(songs[0]);
 
         songToNavigate = songs[0];
-        console.log(songToNavigate);
       }
       if (navigateToNextSong) {
-        navigate(`/songs/${songToNavigate.id}`);
+        navigate(`/songs/${songToNavigate.id}`, { replace: true });
       }
     },
     [currentIndex, songs, play, mode, navigate],

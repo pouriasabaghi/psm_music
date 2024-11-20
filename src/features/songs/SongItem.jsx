@@ -3,6 +3,7 @@ import {
   MdMoreVert,
   MdOutlineModeEditOutline,
   MdQueueMusic,
+  MdShare,
 } from "react-icons/md";
 import { usePlayer } from "../../context/PlayerContext";
 import headphoneImg from "./../../assets/img/headphone.png";
@@ -26,11 +27,15 @@ import {
   AlertDialogTrigger,
 } from "@/ui/alert-dialog";
 import AddSongToPlaylist from "../playlist/AddSongToPlaylist";
+import { copyToClipboard } from "@/utils/utli";
 
 function SongItem({ song }) {
   const navigate = useNavigate();
   const { deleteSong } = useDeleteSong();
   const { dispatch, currentSong, play, stop } = usePlayer();
+
+  const editLink = `/songs/edit/${song.id}`;
+  const shareLink = `${window.location.origin}/songs/${song.id}`;
 
   function handlePlayer() {
     // prevent resets song if song is already playing
@@ -58,7 +63,7 @@ function SongItem({ song }) {
         src={song.cover || headphoneImg}
         alt={song.name}
       />
-      <div onClick={handlePlayer} className="flex flex-col gap-y-1 w-full">
+      <div onClick={handlePlayer} className="flex w-full flex-col gap-y-1">
         <span
           className={`max-w-52 overflow-hidden overflow-ellipsis text-nowrap ${currentSong?.id === song.id ? "text-purple-500" : "text-white"}`}
         >
@@ -80,9 +85,14 @@ function SongItem({ song }) {
               />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
+              <DropdownMenuItem className="cursor-pointer" onClick={() => copyToClipboard(shareLink)}>
+                <MdShare className="mr-1" size={20} />
+                <span>Share</span>
+              </DropdownMenuItem>
+
               <DropdownMenuItem>
                 <MdOutlineModeEditOutline className="mr-1" size={20} />
-                <Link to={`/songs/edit/${song.id}`}>Edit</Link>
+                <Link to={editLink}>Edit</Link>
               </DropdownMenuItem>
 
               <DropdownMenuItem className="cursor-pointer">

@@ -13,7 +13,7 @@ function FavoritesList() {
   }, [dispatch]);
 
   if (isLoading) return <div className="space-y-4">
-    <SongSkeleton count={7} />
+    <SongSkeleton count={8} />
   </div>;
 
   if (favorites.length === 0) return <div>No favorites yet</div>;

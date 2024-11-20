@@ -8,6 +8,7 @@ import {
 
 import { usePlaylists } from "./usePlaylists";
 import useAddSongToPlaylist from "./useAddSongToPlaylist";
+import FullPageSpinner from "@/ui/FullPageSpinner";
 
 function AddSongToPlaylist({ song, trigger }) {
   const { playlists, isLoading } = usePlaylists();
@@ -21,7 +22,7 @@ function AddSongToPlaylist({ song, trigger }) {
     });
   }
 
-  if (isLoading) return <div>Loading....</div>;
+  if (isLoading) return <FullPageSpinner />;
 
   return (
     <Dialog>

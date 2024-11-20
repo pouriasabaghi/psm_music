@@ -5,13 +5,14 @@ import { useForm } from "react-hook-form";
 import { Input } from "@/ui/input";
 import { Button } from "../../ui/button";
 import { useUpdateSong } from "./useUpdateSong";
+import FullPageSpinner from "@/ui/FullPageSpinner";
 
 function EditSongForm() {
   const { id } = useParams();
 
   const { song, isLoading } = useEditSong(id);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <FullPageSpinner />;
 
   return <Form song={song} />;
 }

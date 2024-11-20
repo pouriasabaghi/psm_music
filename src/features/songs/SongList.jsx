@@ -7,7 +7,12 @@ import SongSkeleton from "@/ui/SongSkeleton";
 function SongList() {
   const { songs, isPending } = useSongs();
 
-  if (isPending) return <SongSkeleton count={7} />;
+  if (isPending)
+    return (
+      <div className="space-y-4">
+        <SongSkeleton count={8} />
+      </div>
+    );
 
   if (songs.length === 0)
     return (

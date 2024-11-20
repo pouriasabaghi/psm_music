@@ -7,10 +7,7 @@ import CreatePlayListForm from "@/features/playlist/CreatePlayListForm";
 function Playlists() {
   return (
     <RightMotion>
-      <AppHeaderTitle>Playlists</AppHeaderTitle>
-      <div className="flex justify-end w-full px-5">
-        <CreatePlayListForm />
-      </div>
+      <AppHeaderTitle endEl={<CreatePlayListForm />}>Playlists</AppHeaderTitle>
       <AppContentBox>
         <PlaylistTable />
       </AppContentBox>
