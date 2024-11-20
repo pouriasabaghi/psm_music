@@ -1,2 +1,2 @@
-# PSM MUSIC
+# MyPlaylists
 
