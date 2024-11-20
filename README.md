@@ -1,2 +1,2 @@
-# MyPlaylists
+# My Playlists
 
