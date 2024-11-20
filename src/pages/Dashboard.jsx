@@ -6,8 +6,12 @@ import AppHeader from "@/layouts/AppHeader";
 import { usePlayer } from "@/context/PlayerContext";
 import { useEffect } from "react";
 import { toast } from "sonner";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs";
+import { useTopPlaylists } from "@/features/playlist/useTopPlaylists";
+import PlaylistItem from "@/features/playlist/PlaylistItem";
 
 function Dashboard() {
+  const { topPlaylists, isLoading } = useTopPlaylists();
   const { dispatch } = usePlayer();
   useEffect(() => {
     dispatch({ type: "song/list", payload: "songs" });
@@ -30,18 +34,40 @@ function Dashboard() {
               <span className="block font-bold">Playlists</span>
             </Link>
           </div>
-          <div className="bg- col-span-4 rounded-lg bg-gradient-to-tr from-yellow-900 to-yellow-600 px-2 py-2 opacity-30">
-            <button
-              onClick={() => toast.error("Coming soon 💫")}
+          <div  onClick={() => toast.error("Coming soon 💫")} className="bg- col-span-4 rounded-lg bg-gradient-to-tr from-yellow-900 to-yellow-600 px-2 py-2 opacity-30">
+            <div
               className="cursor-not-allowed"
             >
               <MdTimer size={30} color="white" />
               <span className="block font-bold">Recent</span>
-            </button>
+            </div>
           </div>
         </div>
 
-        <SongList />
+        <Tabs defaultValue="songs">
+          <TabsList>
+            <TabsTrigger value="songs">Songs</TabsTrigger>
+            <TabsTrigger value="top_playlists">Top Playlists</TabsTrigger>
+            <TabsTrigger value="top_songs" className="opacity-25">Top Songs</TabsTrigger>
+          </TabsList>
+          <TabsContent value="songs">
+            <SongList />
+          </TabsContent>
+          <TabsContent value="top_playlists">
+            {isLoading ? (
+              <p>Loading...</p>
+            ) : (
+              <div className="justify-content-between grid w-full grid-cols-12 gap-x-6 gap-y-6">
+                {topPlaylists.map((playlist) => (
+                  <PlaylistItem key={playlist.id} playlist={playlist} />
+                ))}
+              </div>
+            )}
+          </TabsContent>
+          <TabsContent value="top_songs">
+          Coming soon 💫
+          </TabsContent>
+        </Tabs>
       </AppContentBox>
     </div>
   );
