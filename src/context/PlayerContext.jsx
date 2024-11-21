@@ -282,6 +282,63 @@ function PlayerContextProvider({ children }) {
     };
   }, [audio, dispatch]);
 
+   // Update mediaSession when a new song is played
+  useEffect(() => {
+    if (!currentSong) return;
+
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: currentSong.title,
+        artist: currentSong.artist,
+        album: currentSong.album,
+        artwork: [
+          {
+            src: currentSong.cover,
+            sizes: "96x96",
+            type: "image/png",
+          },
+          {
+            src: currentSong.cover,
+            sizes: "128x128",
+            type: "image/png",
+          },
+          {
+            src: currentSong.cover,
+            sizes: "192x192",
+            type: "image/png",
+          },
+          {
+            src: currentSong.cover,
+            sizes: "256x256",
+            type: "image/png",
+          },
+          {
+            src: currentSong.cover,
+            sizes: "384x384",
+            type: "image/png",
+          },
+          {
+            src: currentSong.cover,
+            sizes: "512x512",
+            type: "image/png",
+          },
+        ],
+      });
+
+      // Define actions for play, pause, next, prev
+      navigator.mediaSession.setActionHandler("play", continues);
+      navigator.mediaSession.setActionHandler("pause", stop);
+      navigator.mediaSession.setActionHandler("nexttrack", ()=>next(false));
+      navigator.mediaSession.setActionHandler("previoustrack", prev);
+    }
+  }, [continues, next, prev, stop, currentSong]);
+
+  // Update document title
+  useEffect(() => {
+    if (!currentSong) return;
+    document.title = currentSong.name;
+  }, [currentSong]);
+
   const value = useMemo(
     () => ({
       currentSong,

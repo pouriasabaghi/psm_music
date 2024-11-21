@@ -28,7 +28,6 @@ import {
 } from "react-icons/md";
 import { AlertDialogFooter, AlertDialogHeader } from "@/ui/alert-dialog";
 import useDeletePlaylist from "@/features/playlist/useDeletePlaylist";
-import { toast } from "sonner";
 import { copyToClipboard } from "@/utils/utli";
 
 function Playlist() {
