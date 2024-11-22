@@ -40,6 +40,8 @@ function SongItem({ song }) {
   function handlePlayer() {
     // prevent resets song if song is already playing
     if (song.id !== currentSong?.id) {
+      console.log(song)
+      
       play(song);
     } else {
       navigate(`/songs/${song.id}`);

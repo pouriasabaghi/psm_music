@@ -3,15 +3,19 @@ import headphoneImg from "./../../assets/img/headphone.png";
 import { usePlayer } from "../../context/PlayerContext";
 import { useNavigate } from "react-router-dom";
 import CircleProgress from "./CircleProgress";
+import FavoriteButton from "../favorites/FavoriteButton";
 function MiniPlayer() {
-  const { currentSong, isPlaying, continues, stop, next, isLoading } = usePlayer();
+  const { currentSong, isPlaying, continues, stop, next, isLoading } =
+    usePlayer();
 
   const navigate = useNavigate();
 
   if (!currentSong) return null;
 
   return (
-    <div className={`flex w-full rounded-3xl bg-dark-50 py-1 pe-5 ${isLoading ? "bg-glass-loader" : ""}`}>
+    <div
+      className={`flex w-full rounded-3xl bg-dark-50 py-1 pe-5 ${isLoading ? "bg-glass-loader" : ""}`}
+    >
       <div
         onClick={() => navigate(`/songs/${currentSong.id}`)}
         className={`${isPlaying ? "" : "stop"} animate-spin-slow cursor-pointer overflow-hidden rounded-full bg-dark-200 shadow-[0_0_0_2px_#131319,_0_0_0_4px_#676789,_0_0_0_6px_#131319]`}
@@ -34,7 +38,8 @@ function MiniPlayer() {
         </span>
       </div>
 
-      <div className="ms-auto flex items-center gap-4">
+      <div className="ms-auto flex items-center gap-4">        
+        <FavoriteButton key={currentSong.id} song={currentSong} />
         <div className="flex items-center justify-center">
           <CircleProgress />
           {isPlaying ? (
