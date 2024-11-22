@@ -55,3 +55,9 @@ export const getStreamFile = async (id) => {
   return response.data;
 };
 
+export const getTopSongs = async (id) => {
+  if (!id) return;
+
+  const response = await http.get(`${API_BASE_URL}/api/songs/top-songs`);
+  return response.data;
+};
