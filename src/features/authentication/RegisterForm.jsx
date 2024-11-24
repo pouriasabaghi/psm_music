@@ -1,22 +1,22 @@
 import { useForm } from "react-hook-form";
 
 import { Input } from "@/ui/input";
-import { useLogin } from "./useLogin";
+import { useRegister } from "./useRegister";
 import { Button } from "@/ui/button";
 
 import logo from "./../../assets/img/myplaylists-logo.svg";
 import { Link } from "react-router-dom";
-function LoginForm() {
+function RegisterForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const { login, isPending } = useLogin();
+  const { register: registerUser, isPending } = useRegister();
 
   function onSubmit(data) {
-    login({ email: data.email, password: data.password });
+    registerUser({ email: data.email, password: data.password, name:data.name });
   }
 
   return (
@@ -30,6 +30,13 @@ function LoginForm() {
         onSubmit={handleSubmit(onSubmit)}
         className="m-auto flex w-full flex-col gap-y-3 rounded-lg bg-dark px-4 py-10"
       >
+        <Input
+          {...register("name", { required: "Name is required" })}
+          placeholder="Name"
+          type="text"
+          autoComplete="username"
+          error={errors.name?.message}
+        />
         <Input
           {...register("email", { required: "Email is required" })}
           placeholder="Email"
@@ -45,15 +52,15 @@ function LoginForm() {
           error={errors.password?.message}
         />
         <Button disabled={isPending}>
-          {isPending ? "Loading..." : "Login"}
+          {isPending ? "Loading..." : "Register"}
         </Button>
 
-        <Link to="/register" className="text-start mt-2 text-blue-500">
-          Don't have an account? Register
+        <Link to="/login" className="mt-2 text-start text-blue-500">
+          You already have an account? Login
         </Link>
       </form>
     </div>
   );
 }
 
-export default LoginForm;
+export default RegisterForm;

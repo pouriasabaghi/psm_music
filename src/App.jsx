@@ -13,6 +13,7 @@ import ProtectedRoutes from "./layouts/ProtectedRoutes";
 
 import "./App.css";
 
+const Register = lazy(() => import("./pages/Register"));
 const Login = lazy(() => import("./pages/Login"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const UploadSong = lazy(() => import("./pages/UploadSong"));
@@ -71,6 +72,7 @@ function App() {
                 </Route>
 
                 <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
               </Routes>
             </ProgressContextProvider>
           </PlayerContextProvider>
