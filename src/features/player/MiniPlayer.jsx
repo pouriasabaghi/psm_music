@@ -30,10 +30,10 @@ function MiniPlayer() {
         onClick={() => navigate(`/songs/${currentSong.id}`)}
         className="flex cursor-pointer flex-col ps-4"
       >
-        <span className="max-w-52 overflow-hidden overflow-ellipsis text-nowrap text-sm font-bold">
+        <span className="max-w-44 overflow-hidden overflow-ellipsis text-nowrap text-sm font-bold">
           {currentSong?.name}
         </span>
-        <span className="max-w-52 overflow-hidden overflow-ellipsis text-nowrap text-xs">
+        <span className="max-w-44 overflow-hidden overflow-ellipsis text-nowrap text-xs">
           {currentSong?.artist}
         </span>
       </div>

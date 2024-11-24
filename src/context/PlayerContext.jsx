@@ -23,7 +23,7 @@ const initialState = {
   currentIndex: 0,
   list: "songs",
   audio: null,
-  mode: 0,
+  mode: JSON.parse(localStorage.getItem("mode")) || 0,
 };
 
 function reducer(state, action) {

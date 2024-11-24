@@ -13,6 +13,7 @@ import ProtectedRoutes from "./layouts/ProtectedRoutes";
 
 import "./App.css";
 
+const Search = lazy(() => import("./pages/Search"));
 const Register = lazy(() => import("./pages/Register"));
 const Login = lazy(() => import("./pages/Login"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -61,6 +62,7 @@ function App() {
                     path="/playlists/edit/:id"
                     element={<EditPlaylist />}
                   />
+                  <Route path="/search" element={<Search />} />
                 </Route>
 
                 <Route element={<AppLayout />}>

@@ -26,15 +26,16 @@ function Player({ song }) {
     dispatch,
   } = usePlayer();
 
-
-
   const songToPlay = currentSong || song;
 
   useEffect(() => {
     if (!currentSong) dispatch({ type: "song/current", payload: song });
   }, [song, currentSong, dispatch]);
 
-
+  function handleModeChange(mode) {
+    dispatch({ type: "song/mode", payload: mode });
+    localStorage.setItem("mode", mode);
+  }
 
   return (
     <div>
@@ -60,21 +61,21 @@ function Player({ song }) {
         <div>
           {mode === 0 && (
             <MdRepeat
-              onClick={() => dispatch({ type: "song/mode", payload: 1 })}
+              onClick={() => handleModeChange(1)}
               size={30}
               className="cursor-pointer text-white"
             />
           )}
           {mode === 1 && (
             <MdRepeatOne
-              onClick={() => dispatch({ type: "song/mode", payload: 2 })}
+              onClick={() => handleModeChange(2)}
               size={30}
               className="cursor-pointer text-white"
             />
           )}
           {mode === 2 && (
             <MdShuffle
-              onClick={() => dispatch({ type: "song/mode", payload: 0 })}
+              onClick={() => handleModeChange(0)}
               size={30}
               className="cursor-pointer text-white"
             />
