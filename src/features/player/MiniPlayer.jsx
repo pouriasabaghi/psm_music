@@ -14,7 +14,7 @@ function MiniPlayer() {
 
   return (
     <div
-      className={`flex w-full rounded-3xl bg-dark-50 py-1 pe-5 ${isLoading ? "bg-glass-loader" : ""}`}
+      className={`flex w-full rounded-3xl bg-dark-50 py-1 ps-1 pe-5 ${isLoading ? "bg-glass-loader" : ""}`}
     >
       <div
         onClick={() => navigate(`/songs/${currentSong.id}`)}

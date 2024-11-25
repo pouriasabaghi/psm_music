@@ -13,6 +13,8 @@ import ProtectedRoutes from "./layouts/ProtectedRoutes";
 
 import "./App.css";
 
+const TopLists = lazy(() => import("./pages/TopLists"));
+const TopSongs = lazy(() => import("./pages/TopSongs"));
 const Search = lazy(() => import("./pages/Search"));
 const Register = lazy(() => import("./pages/Register"));
 const Login = lazy(() => import("./pages/Login"));
@@ -53,6 +55,8 @@ function App() {
                   }
                 >
                   <Route path="/" element={<Dashboard />} />
+                  <Route path="/top-playlists" element={<TopLists />} />
+                  <Route path="/top-songs" element={<TopSongs />} />
                   <Route path="/songs/upload" element={<UploadSong />} />
                   <Route path="/songs/edit/:id" element={<EditSong />} />
                   <Route path="/favorites" element={<Favorites />} />
