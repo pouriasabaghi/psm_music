@@ -43,6 +43,14 @@ export const addSongToPlaylist = async (playlistId, songId) => {
   return response.data;
 };
 
+// for bulk of songs
+export const addSongsToPlaylist = async (playlistId, songsIds) => {
+  const response = await http.post(`/api/playlists/${playlistId}/songs/bulk`, {
+    songs_ids: songsIds,
+  });
+  return response.data;
+};
+
 export const removeFromPlaylist = async (playlistId, songId) => {
   const response = await http.delete(
     `/api/playlists/${playlistId}/songs/${songId}`,

@@ -27,6 +27,7 @@ const Playlists = lazy(() => import("./pages/Playlists"));
 const Playlist = lazy(() => import("./pages/Playlist"));
 const EditPlaylist = lazy(() => import("./pages/EditPlaylist"));
 const SharePlaylist = lazy(() => import("./pages/SharePlaylist"));
+const SongsBulkActions = lazy(() => import("./pages/SongsBulkActions"));
 
 function App() {
   const queryClient = new QueryClient({
@@ -67,6 +68,10 @@ function App() {
                     element={<EditPlaylist />}
                   />
                   <Route path="/search" element={<Search />} />
+                  <Route
+                    path="songs-bulk-actions"
+                    element={<SongsBulkActions />}
+                  />
                 </Route>
 
                 <Route element={<AppLayout />}>

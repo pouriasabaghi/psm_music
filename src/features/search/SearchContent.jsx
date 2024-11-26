@@ -1,17 +1,16 @@
 import { Input } from "@/ui/input";
 import { MdArrowBack } from "react-icons/md";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SearchList from "./SearchList";
 import { useSearch } from "./useSearch";
 import { useEffect, useRef, useState } from "react";
 
 function SearchContent() {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
 
-  const [keyword, setKeyword] = useState(searchParams.get("keyword") || "");
+  const [keyword, setKeyword] = useState("");
 
-  const { songs, isPending, isLoading } = useSearch(keyword);
+  const { songs, isLoading } = useSearch(keyword);
 
   const debounce = useRef(null);
   const searchInput = useRef(null);
@@ -19,10 +18,7 @@ function SearchContent() {
   function handleSearch(e) {
     const keywordValue = e.target.value.trim();
 
-    if (!keywordValue) {
-      setKeyword("");
-      setSearchParams({});
-    }
+    if (!keywordValue) setKeyword("");
 
     if (debounce.current) clearTimeout(debounce.current);
 
@@ -32,8 +28,6 @@ function SearchContent() {
     debounce.current = setTimeout(() => {
       setKeyword(keywordValue);
     }, 500);
-
-    setSearchParams({ keyword: keywordValue });
   }
 
   useEffect(() => {

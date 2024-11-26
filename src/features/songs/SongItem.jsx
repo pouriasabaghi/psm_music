@@ -13,7 +13,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/ui/dropdown-menu";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDeleteSong } from "./useDeleteSong";
 
 import {
@@ -28,20 +28,59 @@ import {
 } from "@/ui/alert-dialog";
 import AddSongToPlaylist from "../playlist/AddSongToPlaylist";
 import { copyToClipboard } from "@/utils/utli";
+import { useRef, useState } from "react";
 
 function SongItem({ song }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { deleteSong } = useDeleteSong();
   const { dispatch, currentSong, play, stop } = usePlayer();
+
+  const [isLongPress, setIsLongPress] = useState(false);
+  const timerRef = useRef(null);
 
   const editLink = `/songs/edit/${song.id}`;
   const shareLink = `${window.location.origin}/songs/${song.id}`;
 
+  const handleLongPress = () => {
+    // detecting long press
+    setIsLongPress(true);
+    navigate(`/songs-bulk-actions?from=${location.pathname}`);
+  };
+
+  const handleMouseDown = () => {
+    setIsLongPress(false);
+    timerRef.current = setTimeout(handleLongPress, 500);
+  };
+
+  const handleMouseUp = () => {
+    // clear timer
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
+  const handleTouchStart = () => {
+    setIsLongPress(false);
+    timerRef.current = setTimeout(handleLongPress, 500);
+  };
+
+  const handleTouchEnd = () => {
+    // clear timer
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
   function handlePlayer() {
+    if (isLongPress) return;
+
     // prevent resets song if song is already playing
     if (song.id !== currentSong?.id) {
-      console.log(song)
-      
+      console.log(song);
+
       play(song);
     } else {
       navigate(`/songs/${song.id}`);
@@ -56,7 +95,15 @@ function SongItem({ song }) {
     deleteSong(id);
   }
   return (
-    <div className="flex cursor-pointer items-center gap-x-3" role="listitem">
+    <div
+      className="flex cursor-pointer items-center gap-x-3"
+      role="listitem"
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp} // cancel if mouse leaved
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+    >
       <img
         onClick={handlePlayer}
         className="h-16 w-16 rounded-lg object-cover"
@@ -87,7 +134,10 @@ function SongItem({ song }) {
               />
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem className="cursor-pointer" onClick={() => copyToClipboard(shareLink)}>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => copyToClipboard(shareLink)}
+              >
                 <MdShare className="mr-1" size={20} />
                 <span>Share</span>
               </DropdownMenuItem>

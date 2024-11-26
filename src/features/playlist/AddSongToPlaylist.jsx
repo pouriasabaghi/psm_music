@@ -8,17 +8,29 @@ import {
 
 import { usePlaylists } from "./usePlaylists";
 import useAddSongToPlaylist from "./useAddSongToPlaylist";
+import useAddSongsToPlaylist from "./useAddSongsToPlaylists";
 
-function AddSongToPlaylist({ song, trigger }) {
+function AddSongToPlaylist({ song, songs, trigger }) {
   const { playlists, isLoading } = usePlaylists();
 
   const { addSongToPlaylist, isPending } = useAddSongToPlaylist();
 
-  function handleAddSong(playlistId, songId) {
-    addSongToPlaylist({
-      playlistId,
-      songId,
-    });
+  // for bulk of songs
+  const { addSongsToPlaylist } = useAddSongsToPlaylist();
+
+  function handleAddSong(playlistId) {
+    if (song)
+      addSongToPlaylist({
+        playlistId,
+        songId: song.id,
+      });
+
+      if(songs){
+        addSongsToPlaylist({
+          playlistId,
+          songsIds: songs,
+        })
+      }
   }
 
   return (
@@ -40,7 +52,7 @@ function AddSongToPlaylist({ song, trigger }) {
               <li
                 disabled={isPending}
                 className="py-2"
-                onClick={() => handleAddSong(playlist.id, song.id)}
+                onClick={() => handleAddSong(playlist.id)}
                 key={playlist.id}
               >
                 {playlist.name}

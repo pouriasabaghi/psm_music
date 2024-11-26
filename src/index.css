@@ -6,40 +6,42 @@ body {
   @apply bg-dark-900 text-white;
 }
 
-.animate-spin-slow{
+.animate-spin-slow {
   animation: spin 5s linear infinite;
 }
 
-.animate-spin-slow.stop{
+.animate-spin-slow.stop {
   animation-play-state: paused;
 }
 
-.bg-glass-loader::after{
+.bg-glass-loader::after {
   content: "";
   position: absolute;
   top: 0;
   width: 300px;
   height: 100%;
-  background-color: rgba(255, 255, 255, .03);
+  background-color: rgba(255, 255, 255, 0.03);
   z-index: 0;
   animation: ltr 1s ease-out infinite;
   transition: left 1s ease-out;
-
 }
 
-.bg-glass-loader{
+.bg-glass-loader {
   overflow: hidden;
   position: relative;
 }
 
-.bg-glass-loader > *{
+.bg-glass-loader > * {
   position: relative;
   z-index: 1;
 }
 
-
-*{
+* {
   user-select: none;
+}
+
+nav a.active {
+  @apply text-purple-500;
 }
 
 @keyframes spin {
