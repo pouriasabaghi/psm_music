@@ -1,4 +1,4 @@
-import headphone from "@/assets/img/headphone.png";
+import headphone from "@/assets/img/headphone.webp";
 import OneLineText from "@/ui/OneLineText";
 import { Link } from "react-router-dom";
 import PlaylistFollowButton from "./PlaylistFollowButton";

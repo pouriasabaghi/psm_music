@@ -1,5 +1,5 @@
 import { MdPlayArrow, MdPause, MdSkipNext } from "react-icons/md";
-import headphoneImg from "./../../assets/img/headphone.png";
+import headphoneImg from "./../../assets/img/headphone.webp";
 import { usePlayer } from "../../context/PlayerContext";
 import { useNavigate } from "react-router-dom";
 import CircleProgress from "./CircleProgress";

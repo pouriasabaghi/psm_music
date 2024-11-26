@@ -10,7 +10,7 @@ import {
   MdSkipPrevious,
 } from "react-icons/md";
 
-import headphoneImg from "./../../assets/img/headphone.png";
+import headphoneImg from "./../../assets/img/headphone.webp";
 import FavoriteButton from "../favorites/FavoriteButton";
 import LinearSlider from "./LinearSlider";
 

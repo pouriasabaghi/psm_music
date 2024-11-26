@@ -4,7 +4,7 @@ import {
   MdOutlineModeEditOutline,
 } from "react-icons/md";
 import { usePlayer } from "../../context/PlayerContext";
-import headphoneImg from "./../../assets/img/headphone.png";
+import headphoneImg from "./../../assets/img/headphone.webp";
 import {
   DropdownMenu,
   DropdownMenuContent,
