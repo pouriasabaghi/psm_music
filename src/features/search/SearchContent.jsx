@@ -11,7 +11,7 @@ function SearchContent() {
 
   const [keyword, setKeyword] = useState(searchParams.get("keyword") || "");
 
-  const { songs, isPending } = useSearch(keyword);
+  const { songs, isPending, isLoading } = useSearch(keyword);
 
   const debounce = useRef(null);
   const searchInput = useRef(null);
@@ -40,7 +40,7 @@ function SearchContent() {
     searchInput.current.focus();
   }, []);
 
-  if (isPending)
+  if (isLoading)
     return (
       <div className="fixed left-0 top-0 z-50 flex h-full w-full flex-col gap-y-4 bg-dark px-3 pb-3 pt-4">
         <div className="flex gap-x-4">
@@ -54,6 +54,7 @@ function SearchContent() {
             placeholder="Search"
           />
         </div>
+        <div>Loading...</div>
       </div>
     );
 
