@@ -19,7 +19,7 @@ const PlayerContext = createContext(null);
 
 const initialState = {
   isPlaying: false,
-  currentSong: null,
+  currentSong: JSON.parse(localStorage.getItem("currentSong")) || null,
   currentIndex: 0,
   list: "songs",
   audio: null,
@@ -161,6 +161,7 @@ function PlayerContextProvider({ children }) {
             audio: newAudio,
           },
         });
+        localStorage.setItem("currentSong", JSON.stringify(songToPlay));
       } catch (error) {
         toast.error("Failed to play song.");
       }
@@ -228,6 +229,9 @@ function PlayerContextProvider({ children }) {
 
         songToNavigate = songs[0];
       }
+
+      localStorage.setItem("currentSong", JSON.stringify(songToNavigate));
+      
       if (navigateToNextSong) {
         navigate(`/songs/${songToNavigate.id}`, { replace: true });
       }
@@ -246,9 +250,11 @@ function PlayerContextProvider({ children }) {
         },
       });
       play(songs[prevIndex]);
+      localStorage.setItem("currentSong", JSON.stringify(songs[prevIndex]));
       navigate(`/songs/${songs[prevIndex].id}`);
     } else {
       play(songs[currentIndex]);
+      localStorage.setItem("currentSong", JSON.stringify(songs[currentIndex]));
     }
   }, [currentIndex, songs, play, navigate, audio]);
 
@@ -282,7 +288,7 @@ function PlayerContextProvider({ children }) {
     };
   }, [audio, dispatch]);
 
-   // Update mediaSession when a new song is played
+  // Update mediaSession when a new song is played
   useEffect(() => {
     if (!currentSong) return;
 
@@ -328,7 +334,7 @@ function PlayerContextProvider({ children }) {
       // Define actions for play, pause, next, prev
       navigator.mediaSession.setActionHandler("play", continues);
       navigator.mediaSession.setActionHandler("pause", stop);
-      navigator.mediaSession.setActionHandler("nexttrack", ()=>next(false));
+      navigator.mediaSession.setActionHandler("nexttrack", () => next(false));
       navigator.mediaSession.setActionHandler("previoustrack", prev);
     }
   }, [continues, next, prev, stop, currentSong]);

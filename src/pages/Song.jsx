@@ -5,12 +5,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import FullPageSpinner from "@/ui/FullPageSpinner";
 import { copyToClipboard } from "@/utils/utli";
+import BottomNavigation from "@/layouts/BottomNavigation";
 
 function Song() {
   const { id } = useParams();
   const { song, isLoading } = useSong(id);
   const navigate = useNavigate();
-
 
   return (
     <motion.div
@@ -18,7 +18,7 @@ function Song() {
       animate={{ y: 0 }}
       exit={{ y: "100%" }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
-      className="margin-auto fixed right-0 top-0 z-50 h-full w-full max-w-[450px] bg-dark p-5 sm:mx-[calc((100%-450px)/2)]"
+      className="margin-auto h-[calc(100%-68px)] fixed right-0 top-0 z-50 w-full max-w-[450px] bg-dark p-5 sm:mx-[calc((100%-450px)/2)]"
     >
       <div className="mb-5 flex justify-between">
         <MdOutlineKeyboardArrowDown
