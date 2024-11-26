@@ -13,7 +13,22 @@ import ProtectedRoutes from "./layouts/ProtectedRoutes";
 
 import "./App.css";
 
-const TopLists = lazy(() => import("./pages/TopLists"));
+import TopLists from "./pages/TopLists";
+import TopSongs from "./pages/TopSongs";
+import Search from "./pages/Search";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import UploadSong from "./pages/UploadSong";
+import EditSong from "./pages/EditSong";
+import Song from "./pages/Song";
+import Favorites from "./pages/Favorites";
+import Playlists from "./pages/Playlists";
+import Playlist from "./pages/Playlist";
+import EditPlaylist from "./pages/EditPlaylist";
+import SharePlaylist from "./pages/SharePlaylist";
+import SongsBulkActions from "./pages/SongsBulkActions";
+/* const TopLists = lazy(() => import("./pages/TopLists"));
 const TopSongs = lazy(() => import("./pages/TopSongs"));
 const Search = lazy(() => import("./pages/Search"));
 const Register = lazy(() => import("./pages/Register"));
@@ -27,7 +42,7 @@ const Playlists = lazy(() => import("./pages/Playlists"));
 const Playlist = lazy(() => import("./pages/Playlist"));
 const EditPlaylist = lazy(() => import("./pages/EditPlaylist"));
 const SharePlaylist = lazy(() => import("./pages/SharePlaylist"));
-const SongsBulkActions = lazy(() => import("./pages/SongsBulkActions"));
+const SongsBulkActions = lazy(() => import("./pages/SongsBulkActions")); */
 
 function App() {
   const queryClient = new QueryClient({
