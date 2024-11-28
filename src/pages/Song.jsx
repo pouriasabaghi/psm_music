@@ -5,7 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import FullPageSpinner from "@/ui/FullPageSpinner";
 import { copyToClipboard } from "@/utils/utli";
-import BottomNavigation from "@/layouts/BottomNavigation";
 
 function Song() {
   const { id } = useParams();

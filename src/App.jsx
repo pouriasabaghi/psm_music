@@ -1,4 +1,3 @@
-import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { Toaster as Sonner } from "@/ui/sonner";
@@ -58,54 +57,50 @@ function App() {
       <ReactQueryDevtools initialIsOpen={false} />
       <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
       <Sonner />
-      <Suspense>
-        <BrowserRouter>
-          <PlayerContextProvider>
-            <ProgressContextProvider>
-              <Routes>
+      <BrowserRouter>
+        <PlayerContextProvider>
+          <ProgressContextProvider>
+            <Routes>
+              <Route
+                element={
+                  <ProtectedRoutes>
+                    <AppLayout />
+                  </ProtectedRoutes>
+                }
+              >
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/top-playlists" element={<TopLists />} />
+                <Route path="/top-songs" element={<TopSongs />} />
+                <Route path="/songs/upload" element={<UploadSong />} />
+                <Route path="/songs/edit/:id" element={<EditSong />} />
+                <Route path="/favorites" element={<Favorites />} />
+                <Route path="/playlists" element={<Playlists />} />
+                <Route path="/playlists/:id/:name" element={<Playlist />} />
+                <Route path="/playlists/edit/:id" element={<EditPlaylist />} />
+                <Route path="/search" element={<Search />} />
                 <Route
-                  element={
-                    <ProtectedRoutes>
-                      <AppLayout />
-                    </ProtectedRoutes>
-                  }
-                >
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/top-playlists" element={<TopLists />} />
-                  <Route path="/top-songs" element={<TopSongs />} />
-                  <Route path="/songs/upload" element={<UploadSong />} />
-                  <Route path="/songs/edit/:id" element={<EditSong />} />
-                  <Route path="/favorites" element={<Favorites />} />
-                  <Route path="/playlists" element={<Playlists />} />
-                  <Route path="/playlists/:id/:name" element={<Playlist />} />
-                  <Route
-                    path="/playlists/edit/:id"
-                    element={<EditPlaylist />}
-                  />
-                  <Route path="/search" element={<Search />} />
-                  <Route
-                    path="songs-bulk-actions"
-                    element={<SongsBulkActions />}
-                  />
-                </Route>
+                  path="songs-bulk-actions"
+                  element={<SongsBulkActions />}
+                />
+              </Route>
 
-                <Route element={<AppLayout />}>
-                  <Route path="/songs/:id" element={<Song />} />
-                  <Route
-                    path="/playlists/share/:id/:name"
-                    element={<SharePlaylist />}
-                  />
-                </Route>
+              <Route element={<AppLayout />}>
+                <Route path="/songs/:id" element={<Song />} />
+                <Route
+                  path="/playlists/share/:id/:name"
+                  element={<SharePlaylist />}
+                />
+              </Route>
 
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-              </Routes>
-            </ProgressContextProvider>
-          </PlayerContextProvider>
-        </BrowserRouter>
-      </Suspense>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            </Routes>
+          </ProgressContextProvider>
+        </PlayerContextProvider>
+      </BrowserRouter>
     </QueryClientProvider>
   );
 }
 
 export default App;
+

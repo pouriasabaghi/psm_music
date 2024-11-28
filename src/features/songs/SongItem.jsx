@@ -45,12 +45,17 @@ function SongItem({ song }) {
   const handleLongPress = () => {
     // detecting long press
     setIsLongPress(true);
+
+    if (navigator.vibrate) {
+      navigator.vibrate(50); 
+    }
+
     navigate(`/songs-bulk-actions?from=${location.pathname}`);
   };
 
   const handleMouseDown = () => {
     setIsLongPress(false);
-    timerRef.current = setTimeout(handleLongPress, 500);
+    timerRef.current = setTimeout(handleLongPress, 1000);
   };
 
   const handleMouseUp = () => {
@@ -63,7 +68,7 @@ function SongItem({ song }) {
 
   const handleTouchStart = () => {
     setIsLongPress(false);
-    timerRef.current = setTimeout(handleLongPress, 500);
+    timerRef.current = setTimeout(handleLongPress, 1000);
   };
 
   const handleTouchEnd = () => {
@@ -103,6 +108,7 @@ function SongItem({ song }) {
       onMouseLeave={handleMouseUp} // cancel if mouse leaved
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      onScroll={handleMouseUp}
     >
       <img
         onClick={handlePlayer}
