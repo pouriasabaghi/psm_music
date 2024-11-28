@@ -19,7 +19,7 @@ const PlayerContext = createContext(null);
 
 const initialState = {
   isPlaying: false,
-  currentSong: JSON.parse(localStorage.getItem("currentSong")) || null,
+  currentSong: null,
   currentIndex: 0,
   list: "songs",
   audio: null,
@@ -161,7 +161,6 @@ function PlayerContextProvider({ children }) {
             audio: newAudio,
           },
         });
-        localStorage.setItem("currentSong", JSON.stringify(songToPlay));
       } catch (error) {
         toast.error("Failed to play song.");
       }
@@ -229,8 +228,6 @@ function PlayerContextProvider({ children }) {
 
         songToNavigate = songs[0];
       }
-
-      localStorage.setItem("currentSong", JSON.stringify(songToNavigate));
       
       if (navigateToNextSong) {
         navigate(`/songs/${songToNavigate.id}`, { replace: true });
@@ -250,11 +247,9 @@ function PlayerContextProvider({ children }) {
         },
       });
       play(songs[prevIndex]);
-      localStorage.setItem("currentSong", JSON.stringify(songs[prevIndex]));
       navigate(`/songs/${songs[prevIndex].id}`);
     } else {
       play(songs[currentIndex]);
-      localStorage.setItem("currentSong", JSON.stringify(songs[currentIndex]));
     }
   }, [currentIndex, songs, play, navigate, audio]);
 
