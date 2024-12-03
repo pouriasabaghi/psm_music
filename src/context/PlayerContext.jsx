@@ -122,6 +122,11 @@ function PlayerContextProvider({ children }) {
       }
     },
     refetchOnMount: true,
+    retry: (failureCount, error) => {
+      if (error.status === 401) return 0;
+
+      return failureCount < 3;
+    },
   });
 
   const play = useCallback(
