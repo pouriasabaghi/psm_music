@@ -2,20 +2,23 @@ import { useNavigate } from "react-router-dom";
 import { useUser } from "../features/authentication/useUser";
 import { useEffect } from "react";
 import FullPageSpinner from "@/ui/FullPageSpinner";
+import { useNetworkStatus } from "@/context/NetworkStatusContext";
 
 function ProtectedRoutes({ children }) {
   const navigate = useNavigate();
+
+  const isOffline = useNetworkStatus();
   const { isLoading, isAuthenticated } = useUser();
 
   useEffect(() => {
-    if (!isAuthenticated && !isLoading) {
+    if (!isAuthenticated && !isLoading && !isOffline) {
       navigate("/login");
     }
-  }, [isAuthenticated, isLoading, navigate]);
+  }, [isAuthenticated, isLoading, isOffline, navigate]);
 
   if (isLoading) return <FullPageSpinner />;
 
-  if (isAuthenticated) return children;
+  if (isAuthenticated || isOffline) return children;
 
   return null;
 }

@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 
 import SongList from "../features/songs/SongList";
 
@@ -14,12 +15,17 @@ function Dashboard() {
   }, [dispatch]);
 
   return (
-    <div>
+    <motion.div
+    initial={{ x: "-20%" }}
+    animate={{ x: 0 }}
+    exit={{ x: "-20%" }}
+    transition={{ duration: 0.3, ease: "easeOut" }}
+    >
       <AppHeader />
       <AppContentBox>
         <SongList />
       </AppContentBox>
-    </div>
+    </motion.div>
   );
 }
 

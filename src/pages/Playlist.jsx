@@ -29,6 +29,7 @@ import {
 import { AlertDialogFooter, AlertDialogHeader } from "@/ui/alert-dialog";
 import useDeletePlaylist from "@/features/playlist/useDeletePlaylist";
 import { copyToClipboard } from "@/utils/utli";
+import RightMotion from "@/layouts/RightMotion";
 
 function Playlist() {
   const { id, name } = useParams();
@@ -40,7 +41,7 @@ function Playlist() {
   }, [dispatch, id]);
 
   return (
-    <div>
+    <RightMotion>
       <AppHeaderTitle endEl={<PlaylistDropdown playlistId={id} name={name} />}>
         {name}
       </AppHeaderTitle>
@@ -53,7 +54,7 @@ function Playlist() {
           )}
         </div>
       </AppContentBox>
-    </div>
+    </RightMotion>
   );
 }
 

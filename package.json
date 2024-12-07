@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "serve": "PORT=4434 serve dist",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -54,6 +55,8 @@
     "prettier-plugin-tailwindcss": "^0.6.8",
     "tailwindcss": "^3.4.14",
     "vite": "^5.4.9",
-    "vite-plugin-eslint": "^1.8.1"
+    "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-pwa": "^0.21.1",
+    "workbox-window": "^7.3.0"
   }
 }

@@ -27,6 +27,7 @@ import Playlist from "./pages/Playlist";
 import EditPlaylist from "./pages/EditPlaylist";
 import SharePlaylist from "./pages/SharePlaylist";
 import SongsBulkActions from "./pages/SongsBulkActions";
+import { NetworkStatusContextProvider } from "./context/NetworkStatusContext";
 /* const TopLists = lazy(() => import("./pages/TopLists"));
 const TopSongs = lazy(() => import("./pages/TopSongs"));
 const Search = lazy(() => import("./pages/Search"));
@@ -43,64 +44,70 @@ const EditPlaylist = lazy(() => import("./pages/EditPlaylist"));
 const SharePlaylist = lazy(() => import("./pages/SharePlaylist"));
 const SongsBulkActions = lazy(() => import("./pages/SongsBulkActions")); */
 
-function App() {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        staleTime: 0,
-      },
-    },
-  });
 
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 0,
+    },
+  },
+});
+
+function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
       <Toaster position="top-center" toastOptions={{ duration: 3000 }} />
       <Sonner />
       <BrowserRouter>
-        <PlayerContextProvider>
-          <ProgressContextProvider>
-            <Routes>
-              <Route
-                element={
-                  <ProtectedRoutes>
-                    <AppLayout />
-                  </ProtectedRoutes>
-                }
-              >
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/top-playlists" element={<TopLists />} />
-                <Route path="/top-songs" element={<TopSongs />} />
-                <Route path="/songs/upload" element={<UploadSong />} />
-                <Route path="/songs/edit/:id" element={<EditSong />} />
-                <Route path="/favorites" element={<Favorites />} />
-                <Route path="/playlists" element={<Playlists />} />
-                <Route path="/playlists/:id/:name" element={<Playlist />} />
-                <Route path="/playlists/edit/:id" element={<EditPlaylist />} />
-                <Route path="/search" element={<Search />} />
+        <NetworkStatusContextProvider>
+          <PlayerContextProvider>
+            <ProgressContextProvider>
+              <Routes>
                 <Route
-                  path="songs-bulk-actions"
-                  element={<SongsBulkActions />}
-                />
-              </Route>
+                  element={
+                    <ProtectedRoutes>
+                      <AppLayout />
+                    </ProtectedRoutes>
+                  }
+                >
+                  <Route path="/" element={<Dashboard />} />
+                  <Route path="/top-playlists" element={<TopLists />} />
+                  <Route path="/top-songs" element={<TopSongs />} />
+                  <Route path="/songs/upload" element={<UploadSong />} />
+                  <Route path="/songs/edit/:id" element={<EditSong />} />
+                  <Route path="/favorites" element={<Favorites />} />
+                  <Route path="/playlists" element={<Playlists />} />
+                  <Route path="/playlists/:id/:name" element={<Playlist />} />
+                  <Route
+                    path="/playlists/edit/:id"
+                    element={<EditPlaylist />}
+                  />
+                  <Route path="/search" element={<Search />} />
+                  <Route
+                    path="songs-bulk-actions"
+                    element={<SongsBulkActions />}
+                  />
+                </Route>
 
-              <Route element={<AppLayout />}>
-                <Route path="/songs/:id" element={<Song />} />
-                <Route
-                  path="/playlists/share/:id/:name"
-                  element={<SharePlaylist />}
-                />
-              </Route>
+                <Route element={<AppLayout />}>
+                  <Route path="/songs/:id" element={<Song />} />
+                  <Route
+                    path="/playlists/share/:id/:name"
+                    element={<SharePlaylist />}
+                  />
+                </Route>
 
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-            </Routes>
-          </ProgressContextProvider>
-        </PlayerContextProvider>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+              </Routes>
+            </ProgressContextProvider>
+          </PlayerContextProvider>
+        </NetworkStatusContextProvider>
       </BrowserRouter>
     </QueryClientProvider>
   );
 }
 
 export default App;
-
