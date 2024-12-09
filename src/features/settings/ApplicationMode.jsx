@@ -24,7 +24,7 @@ function ApplicationMode() {
         initial={{ y: "20%" }}
         animate={{ y: 0 }}
         transition={{ duration: 0.3, ease: "easeOut" }}
-        className="absolute bottom-[117px] flex w-full flex-col gap-y-3 bg-dark-100 p-4"
+        className="right-0 absolute bottom-[117px] left-0 mx-auto flex w-full max-w-[450px] flex-col gap-y-3 bg-dark-100 p-4"
       >
         <>
           <p className="font-bold">
