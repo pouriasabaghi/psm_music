@@ -1,19 +1,19 @@
 import { Outlet } from "react-router-dom";
 import AppContainer from "./AppContainer";
 import AppFooter from "./AppFooter";
-import { useNetworkStatus } from "@/context/NetworkStatusContext";
-import OfflineStatus from "@/ui/OfflineStatus";
+import ApplicationMode from "@/features/settings/ApplicationMode";
 
 function AppLayout() {
-  const isOffline= useNetworkStatus();
   return (
     <>
       <AppContainer>
-        <OfflineStatus isOffline={isOffline} />
         <div className="bg-dark">
           <Outlet />
         </div>
       </AppContainer>
+
+      <ApplicationMode />
+
       <AppFooter />
     </>
   );

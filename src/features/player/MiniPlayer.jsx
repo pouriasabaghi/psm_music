@@ -4,20 +4,30 @@ import { usePlayer } from "../../context/PlayerContext";
 import { useNavigate } from "react-router-dom";
 import CircleProgress from "./CircleProgress";
 import FavoriteButton from "../favorites/FavoriteButton";
+import { useNetworkStatus } from "@/context/NetworkStatusContext";
+import { toast } from "sonner";
 function MiniPlayer() {
   const { currentSong, isPlaying, continues, stop, next, isLoading } =
     usePlayer();
 
+  const isOffline = useNetworkStatus();
+
   const navigate = useNavigate();
+
+  function handleClick() {
+    if (!isOffline) navigate(`/songs/${currentSong.id}`);
+
+    if (isOffline) toast.warning("Song detail is'nt available in offline mode");
+  }
 
   if (!currentSong) return null;
 
   return (
     <div
-      className={`flex w-full rounded-3xl bg-dark-50 py-1 ps-1 pe-5 ${isLoading ? "bg-glass-loader" : ""}`}
+      className={`flex w-full rounded-3xl bg-dark-50 py-1 pe-5 ps-1 ${isLoading ? "bg-glass-loader" : ""}`}
     >
       <div
-        onClick={() => navigate(`/songs/${currentSong.id}`)}
+        onClick={handleClick}
         className={`${isPlaying ? "" : "stop"} animate-spin-slow cursor-pointer overflow-hidden rounded-full bg-dark-200 shadow-[0_0_0_2px_#131319,_0_0_0_4px_#676789,_0_0_0_6px_#131319]`}
       >
         <img
@@ -26,10 +36,7 @@ function MiniPlayer() {
           alt=""
         />
       </div>
-      <div
-        onClick={() => navigate(`/songs/${currentSong.id}`)}
-        className="flex cursor-pointer flex-col ps-4"
-      >
+      <div onClick={handleClick} className="flex cursor-pointer flex-col ps-4">
         <span className="max-w-44 overflow-hidden overflow-ellipsis text-nowrap text-sm font-bold">
           {currentSong?.name}
         </span>
@@ -38,7 +45,7 @@ function MiniPlayer() {
         </span>
       </div>
 
-      <div className="ms-auto flex items-center gap-4">        
+      <div className="ms-auto flex items-center gap-4">
         <FavoriteButton key={currentSong.id} song={currentSong} />
         <div className="flex items-center justify-center">
           <CircleProgress />

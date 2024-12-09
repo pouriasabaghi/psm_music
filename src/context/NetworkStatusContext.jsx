@@ -6,9 +6,6 @@ function NetworkStatusContextProvider({children}) {
   // State to track offline/online status
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
 
-  console.log(isOffline)
-  
-
   useEffect(() => {
     // Event listeners for online and offline
     const handleOnline = () => setIsOffline(false);
@@ -25,9 +22,9 @@ function NetworkStatusContextProvider({children}) {
 
   const value = isOffline;
   return (
-    <NetworkStatusContext.Provider
-      value={value}
-    >{children}</NetworkStatusContext.Provider>
+    <NetworkStatusContext.Provider value={value}>
+      {children}
+    </NetworkStatusContext.Provider>
   );
 }
 
