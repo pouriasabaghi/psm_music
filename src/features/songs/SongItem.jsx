@@ -28,13 +28,14 @@ import {
 } from "@/ui/alert-dialog";
 import AddSongToPlaylist from "../playlist/AddSongToPlaylist";
 import { copyToClipboard } from "@/utils/utli";
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 
-function SongItem({ song }) {
+function SongItem({ song, play, stop }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { deleteSong } = useDeleteSong();
-  const { dispatch, currentSong, play, stop } = usePlayer();
+
+  const { currentSong, dispatch } = usePlayer();
 
   const [isLongPress, setIsLongPress] = useState(false);
   const timerRef = useRef(null);
@@ -47,7 +48,7 @@ function SongItem({ song }) {
     setIsLongPress(true);
 
     if (navigator.vibrate) {
-      navigator.vibrate(50); 
+      navigator.vibrate(50);
     }
 
     navigate(`/songs-bulk-actions?from=${location.pathname}`);
@@ -84,8 +85,6 @@ function SongItem({ song }) {
 
     // prevent resets song if song is already playing
     if (song.id !== currentSong?.id) {
-      console.log(song);
-
       play(song);
     } else {
       navigate(`/songs/${song.id}`);
@@ -185,4 +184,4 @@ function SongItem({ song }) {
   );
 }
 
-export default SongItem;
+export default memo(SongItem);

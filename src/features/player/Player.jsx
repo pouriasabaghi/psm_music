@@ -11,17 +11,12 @@ import headphoneImg from "./../../assets/img/headphone.webp";
 import FavoriteButton from "../favorites/FavoriteButton";
 import LinearSlider from "./LinearSlider";
 import PlayerMode from "./PlayerMode";
+import { usePlayerController } from "@/context/PlayerControllerContext";
 
 function Player({ song }) {
-  const {
-    next,
-    prev,
-    playOrContinues,
-    isPlaying,
-    stop,
-    currentSong,
-    dispatch,
-  } = usePlayer();
+  const { isPlaying, currentSong, dispatch } = usePlayer();
+
+  const { next, prev, playOrContinues, stop } = usePlayerController();
 
   const songToPlay = currentSong || song;
 

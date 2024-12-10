@@ -1,15 +1,12 @@
-import { usePlayer } from "@/context/PlayerContext";
+import { usePlayerMode } from "@/context/PlayerModeContext";
 import { MdRepeat, MdRepeatOne, MdShuffle } from "react-icons/md";
 
-function PlayerMode({size=30}) {
-  const {
-    mode,
-    dispatch,
-  } = usePlayer();
+function PlayerMode({ size = 30 }) {
+  const { mode, setMode } = usePlayerMode();
 
-  function handleModeChange(mode) {
-    dispatch({ type: "song/mode", payload: mode });
-    localStorage.setItem("mode", mode);
+  function handleModeChange(selectedMode) {
+    setMode(selectedMode);
+    localStorage.setItem("mode", selectedMode);
   }
   return (
     <div>

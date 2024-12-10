@@ -11,9 +11,11 @@ import CircleProgress from "./CircleProgress";
 import { useNetworkStatus } from "@/context/NetworkStatusContext";
 import { toast } from "sonner";
 import PlayerMode from "./PlayerMode";
+import { usePlayerController } from "@/context/PlayerControllerContext";
 function MiniPlayer() {
-  const { currentSong, isPlaying, continues, stop, next, isLoading, prev } =
-    usePlayer();
+  const { currentSong, isLoading } = usePlayer();
+
+  const { continues, stop, next, prev, isPlaying } = usePlayerController();
 
   const isOffline = useNetworkStatus();
 
@@ -42,16 +44,16 @@ function MiniPlayer() {
         />
       </div>
       <div onClick={handleClick} className="flex cursor-pointer flex-col ps-4">
-        <span className="max-w-44 overflow-hidden overflow-ellipsis text-nowrap text-sm font-bold">
+        <span className="max-w-[164px] overflow-hidden overflow-ellipsis text-nowrap text-sm font-bold">
           {currentSong?.name}
         </span>
-        <span className="max-w-44 overflow-hidden overflow-ellipsis text-nowrap text-xs">
+        <span className="max-w-[164px] overflow-hidden overflow-ellipsis text-nowrap text-xs">
           {currentSong?.artist}
         </span>
       </div>
 
       <div className="ms-auto flex items-center gap-4">
-        <PlayerMode size={20} />
+        <PlayerMode size={25} />
 
         <MdSkipPrevious
           onClick={() => prev()}

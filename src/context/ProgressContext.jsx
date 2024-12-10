@@ -1,11 +1,13 @@
-import { createContext, useState, useEffect, useContext } from "react" 
+import { createContext, useState, useEffect, useContext } from "react";
 import { usePlayer } from "./PlayerContext";
+import { usePlayerController } from "./PlayerControllerContext";
 
 const ProgressContext = createContext(0);
 
 function ProgressContextProvider({ children }) {
   const [progress, setProgress] = useState(0);
-  const { audio, isPlaying } = usePlayer();
+  const { audio } = usePlayer();
+  const { isPlaying } = usePlayerController();
   useEffect(() => {
     if (!audio) return;
 
@@ -40,4 +42,4 @@ const useProgress = () => {
   return context;
 };
 
-export {ProgressContextProvider, useProgress}
+export { ProgressContextProvider, useProgress };

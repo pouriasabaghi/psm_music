@@ -3,9 +3,11 @@ import SongItem from "./SongItem";
 import { useSongs } from "./useSongs";
 import { Button } from "@/ui/button";
 import SongSkeleton from "@/ui/SongSkeleton";
+import { usePlayerController } from "@/context/PlayerControllerContext";
 
 function SongList() {
   const { songs, isPending } = useSongs();
+  const { play, stop } = usePlayerController();
 
   if (isPending)
     return (
@@ -27,7 +29,7 @@ function SongList() {
   return (
     <div className="space-y-4" role="list">
       {songs.map((song) => (
-        <SongItem key={song.id} song={song} />
+        <SongItem key={song.id} song={song} play={play} stop={stop} />
       ))}
     </div>
   );
