@@ -5,6 +5,8 @@ import FullPageSpinner from "@/ui/FullPageSpinner";
 import { useNetworkStatus } from "@/context/NetworkStatusContext";
 
 function ProtectedRoutes({ children }) {
+
+  return children ;
   const navigate = useNavigate();
 
   const isOffline = useNetworkStatus();

@@ -1,13 +1,18 @@
-import { MdPlayArrow, MdPause, MdSkipNext } from "react-icons/md";
+import {
+  MdPlayArrow,
+  MdPause,
+  MdSkipNext,
+  MdSkipPrevious,
+} from "react-icons/md";
 import headphoneImg from "./../../assets/img/headphone.webp";
 import { usePlayer } from "../../context/PlayerContext";
 import { useNavigate } from "react-router-dom";
 import CircleProgress from "./CircleProgress";
-import FavoriteButton from "../favorites/FavoriteButton";
 import { useNetworkStatus } from "@/context/NetworkStatusContext";
 import { toast } from "sonner";
+import PlayerMode from "./PlayerMode";
 function MiniPlayer() {
-  const { currentSong, isPlaying, continues, stop, next, isLoading } =
+  const { currentSong, isPlaying, continues, stop, next, isLoading, prev } =
     usePlayer();
 
   const isOffline = useNetworkStatus();
@@ -46,7 +51,13 @@ function MiniPlayer() {
       </div>
 
       <div className="ms-auto flex items-center gap-4">
-        <FavoriteButton key={currentSong.id} song={currentSong} />
+        <PlayerMode size={20} />
+
+        <MdSkipPrevious
+          onClick={() => prev()}
+          size={20}
+          className="cursor-pointer text-white"
+        />
         <div className="flex items-center justify-center">
           <CircleProgress />
           {isPlaying ? (

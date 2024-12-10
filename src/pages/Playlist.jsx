@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import AppContentBox from "@/layouts/AppContentBox";
 import { usePlayer } from "@/context/PlayerContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePlaylistSongs } from "@/features/playlist/usePlaylistSongs";
 import PlaylistSong from "@/features/playlist/PlaylistSong";
 import AppHeaderTitle from "@/layouts/AppHeaderTitle";
@@ -30,10 +30,21 @@ import { AlertDialogFooter, AlertDialogHeader } from "@/ui/alert-dialog";
 import useDeletePlaylist from "@/features/playlist/useDeletePlaylist";
 import { copyToClipboard } from "@/utils/utli";
 import RightMotion from "@/layouts/RightMotion";
+import { useNetworkStatus } from "@/context/NetworkStatusContext";
+import { useFilterPlaylistsSongs } from "@/features/playlist/useFilterPlaylistsSongs";
+import SongItemOffline from "@/features/songs/SongItemOffline";
 
 function Playlist() {
   const { id, name } = useParams();
-  const { songs, isLoading } = usePlaylistSongs(id);
+  const { songs: songsOnCloud, isLoading } = usePlaylistSongs(id);
+
+  const isOffline = useNetworkStatus();
+
+  const { songs } = useFilterPlaylistsSongs({
+    isOffline,
+    isLoading,
+    songsOnCloud,
+  });
 
   const { dispatch } = usePlayer();
   useEffect(() => {
@@ -50,7 +61,7 @@ function Playlist() {
           {isLoading ? (
             <SongSkeleton count={8} />
           ) : (
-            songs.map((song) => <PlaylistSong key={song.id} song={song} />)
+            songs.map((song) => !isOffline ? <PlaylistSong key={song.id} song={song} /> : <SongItemOffline key={song.id} song={song} />)
           )}
         </div>
       </AppContentBox>

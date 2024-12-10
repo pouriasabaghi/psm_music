@@ -24,11 +24,7 @@ function BottomNavigation() {
         <span className="mx-auto text-[10px]">Home</span>
       </NavLink>
 
-      <NavLink
-        onClick={handleClick}
-        to="/playlists"
-        className={`flex flex-col items-center py-3 ${offlineDisableClass}`}
-      >
+      <NavLink to="/playlists" className="flex flex-col items-center py-3">
         <MdQueueMusic size={30} />
         <span className="mx-auto text-[10px]">Playlists</span>
       </NavLink>

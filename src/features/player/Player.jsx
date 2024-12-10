@@ -3,9 +3,6 @@ import { useEffect } from "react";
 import {
   MdPause,
   MdPlayArrow,
-  MdRepeat,
-  MdRepeatOne,
-  MdShuffle,
   MdSkipNext,
   MdSkipPrevious,
 } from "react-icons/md";
@@ -13,6 +10,7 @@ import {
 import headphoneImg from "./../../assets/img/headphone.webp";
 import FavoriteButton from "../favorites/FavoriteButton";
 import LinearSlider from "./LinearSlider";
+import PlayerMode from "./PlayerMode";
 
 function Player({ song }) {
   const {
@@ -22,7 +20,6 @@ function Player({ song }) {
     isPlaying,
     stop,
     currentSong,
-    mode,
     dispatch,
   } = usePlayer();
 
@@ -31,11 +28,6 @@ function Player({ song }) {
   useEffect(() => {
     if (!currentSong) dispatch({ type: "song/current", payload: song });
   }, [song, currentSong, dispatch]);
-
-  function handleModeChange(mode) {
-    dispatch({ type: "song/mode", payload: mode });
-    localStorage.setItem("mode", mode);
-  }
 
   return (
     <div>
@@ -58,33 +50,11 @@ function Player({ song }) {
       <LinearSlider song={songToPlay} />
 
       <div className="mt-9 flex items-center justify-between px-6">
-        <div>
-          {mode === 0 && (
-            <MdRepeat
-              onClick={() => handleModeChange(1)}
-              size={30}
-              className="cursor-pointer text-white"
-            />
-          )}
-          {mode === 1 && (
-            <MdRepeatOne
-              onClick={() => handleModeChange(2)}
-              size={30}
-              className="cursor-pointer text-white"
-            />
-          )}
-          {mode === 2 && (
-            <MdShuffle
-              onClick={() => handleModeChange(0)}
-              size={30}
-              className="cursor-pointer text-white"
-            />
-          )}
-        </div>
+        <PlayerMode />
 
         <div className="flex items-center justify-center gap-4">
           <MdSkipPrevious
-            onClick={() => prev()}
+            onClick={() => prev(true)}
             size={40}
             className="cursor-pointer text-white"
           />

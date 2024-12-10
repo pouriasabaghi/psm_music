@@ -1,18 +1,12 @@
-import { MdMoreVert, MdShare } from "react-icons/md";
+import { MdShare } from "react-icons/md";
 import { usePlayer } from "../../context/PlayerContext";
 import headphoneImg from "./../../assets/img/headphone.webp";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/ui/dropdown-menu";
 
 import { copyToClipboard } from "@/utils/utli";
 import { toast } from "sonner";
 
 function SongItemOffline({ song }) {
-  const {  currentSong, play } = usePlayer();
+  const { currentSong, play } = usePlayer();
 
   const shareLink = `${window.location.origin}/songs/${song.id}`;
 
@@ -48,23 +42,11 @@ function SongItemOffline({ song }) {
         </div>
       </div>
       <div className="mr-3 ms-auto">
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <MdMoreVert
-              size={20}
-              className="cursor-pointer text-gray-400 hover:text-gray-500"
-            />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem
-              className="cursor-pointer"
-              onClick={() => copyToClipboard(shareLink)}
-            >
-              <MdShare className="mr-1" size={20} />
-              <span>Share</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <MdShare
+          onClick={() => copyToClipboard(shareLink)}
+          size={20}
+          className="cursor-pointer text-gray-400 hover:text-gray-500"
+        />
       </div>
     </div>
   );

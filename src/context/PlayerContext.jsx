@@ -233,7 +233,7 @@ function PlayerContextProvider({ children }) {
 
         songToNavigate = songs[0];
       }
-      
+
       if (navigateToNextSong) {
         navigate(`/songs/${songToNavigate.id}`, { replace: true });
       }
@@ -241,22 +241,34 @@ function PlayerContextProvider({ children }) {
     [currentIndex, songs, play, mode, navigate],
   );
 
-  const prev = useCallback(() => {
-    if (currentIndex !== null && currentIndex > 0 && audio.currentTime < 10) {
-      const prevIndex = currentIndex - 1;
-      dispatch({
-        type: "song/prev",
-        payload: {
-          currentSong: songs[prevIndex],
-          currentIndex: prevIndex,
-        },
-      });
-      play(songs[prevIndex]);
-      navigate(`/songs/${songs[prevIndex].id}`);
-    } else {
-      play(songs[currentIndex]);
-    }
-  }, [currentIndex, songs, play, navigate, audio]);
+  const prev = useCallback(
+    (navigateToPrevSong = false) => {
+      let songToNavigate;
+
+      if (currentIndex !== null && currentIndex > 0 && audio.currentTime < 10) {
+        const prevIndex = currentIndex - 1;
+        dispatch({
+          type: "song/prev",
+          payload: {
+            currentSong: songs[prevIndex],
+            currentIndex: prevIndex,
+          },
+        });
+        play(songs[prevIndex]);
+
+        songToNavigate = `/songs/${songs[prevIndex].id}`;
+      } else {        
+        play(songs[currentIndex]);
+        
+        songToNavigate = songs[currentIndex];
+      }
+
+      if (navigateToPrevSong) {
+        navigate(songToNavigate);
+      }
+    },
+    [currentIndex, songs, play, navigate, audio],
+  );
 
   // Automatically play next song
   useEffect(() => {
