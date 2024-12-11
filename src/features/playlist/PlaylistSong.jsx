@@ -13,12 +13,14 @@ import {
 } from "@/ui/dropdown-menu";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useRemoveFromPlaylist from "./useRemoveFromPlaylist";
+import { usePlayerController } from "@/context/PlayerControllerContext";
 
 function PlaylistSong({ song }) {
   const { id: playlistId } = useParams();
   const navigate = useNavigate();
   const { removeFromPlaylist, isPending } = useRemoveFromPlaylist();
-  const { currentSong, play } = usePlayer();
+  const { currentSong } = usePlayer();
+  const { play } = usePlayerController();
 
   function handlePlayer() {
     // prevent resets song if song is already playing

@@ -89,7 +89,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  server: {
+ /*  server: {
     https: {
       key: "/home/pouria/SSL/localhost-key.pem",
       cert: "/home/pouria/SSL/localhost.pem",
@@ -104,5 +104,5 @@ export default defineConfig({
     },
     port: 5137,
     strictPort: true,
-  },
+  }, */
 });

@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import AppContentBox from "@/layouts/AppContentBox";
 import { usePlayer } from "@/context/PlayerContext";
-import { useEffect, useState } from "react";
+import { useEffect} from "react";
 import { usePlaylistSongs } from "@/features/playlist/usePlaylistSongs";
 import PlaylistSong from "@/features/playlist/PlaylistSong";
 import AppHeaderTitle from "@/layouts/AppHeaderTitle";

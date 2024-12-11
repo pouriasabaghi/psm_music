@@ -1,22 +1,24 @@
 import { createContext, useContext, useEffect } from "react";
 import { usePlayerController } from "./PlayerControllerContext";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { usePlayer } from "./PlayerContext";
+import { useNetworkStatus } from "./NetworkStatusContext";
 
 const PlayerActionsContext = createContext(null);
 
 function PlayerActionsContextProvider({ children }) {
-  const navigate = useNavigate();
   const location = useLocation();
 
   const { next, prev, stop, continues } = usePlayerController();
 
   const { audio, dispatch, currentSong } = usePlayer();
 
+  const isOffline = useNetworkStatus();
+
   // Automatically play next song
   useEffect(() => {
     // prevent navigation on index page
-    const goToNextSong = () => next(location.pathname !== "/");
+    const goToNextSong = () => next(location.pathname !== "/" && !isOffline);
 
     if (audio) {
       audio.addEventListener("ended", goToNextSong);
@@ -27,7 +29,7 @@ function PlayerActionsContextProvider({ children }) {
         audio.removeEventListener("ended", goToNextSong);
       }
     };
-  }, [audio, next, location]);
+  }, [audio, next, location, isOffline]);
 
   // On audio start playing
   useEffect(() => {
@@ -49,9 +51,9 @@ function PlayerActionsContextProvider({ children }) {
 
     if ("mediaSession" in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
-        title: currentSong.title,
-        artist: currentSong.artist,
-        album: currentSong.album,
+        title: currentSong.name,
+        artist: currentSong.artist || 'unknown',
+        album: currentSong.album || 'unknown',
         artwork: [
           {
             src: currentSong.cover,

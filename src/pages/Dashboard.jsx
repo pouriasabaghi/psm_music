@@ -5,11 +5,7 @@ import SongList from "../features/songs/SongList";
 import AppContentBox from "@/layouts/AppContentBox";
 import AppHeader from "@/layouts/AppHeader";
 import { usePlayer } from "@/context/PlayerContext";
-import { useEffect, useState } from "react";
-import {
-  NetworkStatusContextProvider,
-  useNetworkStatus,
-} from "@/context/NetworkStatusContext";
+import { useEffect } from "react";
 import AppHeaderFull from "@/layouts/AppHeaderFull";
 import SongListOffline from "@/features/songs/SongListOffline";
 import { useApplicationSettings } from "@/context/ApplicationSettings";

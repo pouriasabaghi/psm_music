@@ -4,9 +4,11 @@ import headphoneImg from "./../../assets/img/headphone.webp";
 
 import { copyToClipboard } from "@/utils/utli";
 import { toast } from "sonner";
+import { usePlayerController } from "@/context/PlayerControllerContext";
 
 function SongItemOffline({ song }) {
-  const { currentSong, play } = usePlayer();
+  const { currentSong } = usePlayer();
+  const { play } = usePlayerController();
 
   const shareLink = `${window.location.origin}/songs/${song.id}`;
 

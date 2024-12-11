@@ -6,6 +6,7 @@ import { Input } from "@/ui/input";
 import { Button } from "../../ui/button";
 import { useUpdateSong } from "./useUpdateSong";
 import FullPageSpinner from "@/ui/FullPageSpinner";
+import { Textarea } from "@/ui/textarea";
 
 function EditSongForm() {
   const { id } = useParams();
@@ -34,6 +35,7 @@ function Form({ song }) {
       <Input placeholder="Name" {...register("name", { required: true })} />
       <Input placeholder="Album" {...register("album")} />
       <Input placeholder="Artist" {...register("artist")} />
+      <Textarea rows={5} placeholder="Lyrics" {...register("lyrics")} />
       <Button disabled={isPending} type="success">
         Save
       </Button>
