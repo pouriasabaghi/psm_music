@@ -3,11 +3,14 @@ import SongItem from "../songs/SongItem";
 import { useFavorites } from "./useFavorites";
 import { usePlayer } from "@/context/PlayerContext";
 import SongSkeleton from "@/ui/SongSkeleton";
+import { usePlayerController } from "@/context/PlayerControllerContext";
 
 function FavoritesList() {
   const { favorites, isLoading } = useFavorites();
 
   const { dispatch } = usePlayer();
+  const { play, stop } = usePlayerController();
+  
   useEffect(() => {
     dispatch({ type: "song/list", payload: "favorites" });
   }, [dispatch]);
@@ -21,7 +24,7 @@ function FavoritesList() {
   return (
     <div className="space-y-4" role="list">
       {favorites?.map((song) => (
-        <SongItem key={song.id} song={song} />
+        <SongItem key={song.id} song={song} play={play} stop={stop} />
       ))}
     </div>
   );

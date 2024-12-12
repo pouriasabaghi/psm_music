@@ -37,12 +37,6 @@ Welcome to **MyPlaylists**, a feature-rich music platform that allows users to c
 
 ---
 
-## License
-
-This project is open-source and available under the [MIT License](LICENSE).
-
----
-
 ## Contact
 
 For support or feedback, reach out via [pouriasabaghi@gmail.com](mailto\:pouriasabaghi@gmail.com)
