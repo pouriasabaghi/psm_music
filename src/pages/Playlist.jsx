@@ -1,7 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import AppContentBox from "@/layouts/AppContentBox";
 import { usePlayer } from "@/context/PlayerContext";
-import { useEffect} from "react";
+import { useEffect } from "react";
 import { usePlaylistSongs } from "@/features/playlist/usePlaylistSongs";
 import PlaylistSong from "@/features/playlist/PlaylistSong";
 import AppHeaderTitle from "@/layouts/AppHeaderTitle";
@@ -33,6 +33,7 @@ import RightMotion from "@/layouts/RightMotion";
 import { useNetworkStatus } from "@/context/NetworkStatusContext";
 import { useFilterPlaylistsSongs } from "@/features/playlist/useFilterPlaylistsSongs";
 import SongItemOffline from "@/features/songs/SongItemOffline";
+import OneLineText from "@/ui/OneLineText";
 
 function Playlist() {
   const { id, name } = useParams();
@@ -54,14 +55,22 @@ function Playlist() {
   return (
     <RightMotion>
       <AppHeaderTitle endEl={<PlaylistDropdown playlistId={id} name={name} />}>
-        {name}
+        <OneLineText className="max-w-60 block">
+         <span>{name}</span>
+        </OneLineText>
       </AppHeaderTitle>
       <AppContentBox>
         <div className="space-y-4" role="list">
           {isLoading ? (
             <SongSkeleton count={8} />
           ) : (
-            songs.map((song) => !isOffline ? <PlaylistSong key={song.id} song={song} /> : <SongItemOffline key={song.id} song={song} />)
+            songs.map((song) =>
+              !isOffline ? (
+                <PlaylistSong key={song.id} song={song} />
+              ) : (
+                <SongItemOffline key={song.id} song={song} />
+              ),
+            )
           )}
         </div>
       </AppContentBox>

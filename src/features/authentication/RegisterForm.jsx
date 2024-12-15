@@ -4,7 +4,7 @@ import { Input } from "@/ui/input";
 import { useRegister } from "./useRegister";
 import { Button } from "@/ui/button";
 
-import logo from "./../../assets/img/myplaylists-logo.svg";
+import logo from "./../../assets/img/myplaylists-banner.svg";
 import { Link } from "react-router-dom";
 function RegisterForm() {
   const {
