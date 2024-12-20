@@ -83,7 +83,7 @@ function Player({ song, tab }) {
 
   if (tab === "lyrics") {
     return (
-      <div className="h-[calc(100%-48px)] overflow-auto">
+      <div key={song.id} className="h-[calc(100%-48px)] overflow-auto">
         <p className="whitespace-pre-line leading-loose">
           {song.lyrics || <p className="">No lyrics found for this song</p>}
         </p>
